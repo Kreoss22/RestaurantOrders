@@ -8,8 +8,14 @@ namespace Restaurant
 {
     internal class Zamowienie
     {
-        string idZamowienia;
-        List<(Danie, int)> zamowioneDania;
+        private string idZamowienia;
+        private List<(Danie, int)> zamowioneDania;
+        private DateTime dataZamowienia;
         static int indeks;
+        
+        public Zamowienie(List<>)
+        {
+
+        }
     }
 }

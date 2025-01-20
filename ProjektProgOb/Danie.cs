@@ -20,10 +20,10 @@ namespace Restaurant
     }
     internal class Danie
     {
-        string nazwa;
-        EnumKategorieDan kategoria;
-        List<string> składniki;
-
+        private string nazwa;
+        private EnumKategorieDan kategoria;
+        private List<string> składniki;
+        private decimal cena;
 
     }
 }
