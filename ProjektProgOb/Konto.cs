@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Program
+    internal class Konto
     {
-        static void Main(string[] args)
-        {
-        }
+        string login;
+        string hasło;
+        Osoba wlasciciel;
     }
 }
