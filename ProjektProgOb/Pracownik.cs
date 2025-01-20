@@ -14,7 +14,7 @@ namespace Restaurant
 
         public string Pesel
         {
-            get => pesel; init
+            get => pesel; set
             {
                 if (!Regex.IsMatch(value, @"\d{11}"))
                 {

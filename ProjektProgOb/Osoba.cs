@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Restaurant
 {
@@ -15,7 +16,7 @@ namespace Restaurant
 
         public string Email
         {
-            get => email; init
+            get => email; set
             {
                 if (!Regex.IsMatch(value, @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"))
                 {
@@ -27,7 +28,7 @@ namespace Restaurant
 
         public string NrTel
         {
-            get => nrTel; init
+            get => nrTel; set
             {
                 if (!Regex.IsMatch(value, @"\d{9}"))
                 {
