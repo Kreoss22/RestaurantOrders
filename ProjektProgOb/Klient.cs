@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjektProgOb
+namespace Restaurant
 {
-    internal class Klient
+    internal class Klient : Osoba
     {
-
+        List<Zamowienie> listaZamowien;
     }
 }

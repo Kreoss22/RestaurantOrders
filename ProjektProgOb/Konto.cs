@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Zamowienie
+    internal class Konto
     {
-        string idZamowienia;
-        List<(Danie, int)> zamowioneDania;
-        static int indeks;
+        string login;
+        string hasło;
+        Osoba wlasciciel;
     }
 }
