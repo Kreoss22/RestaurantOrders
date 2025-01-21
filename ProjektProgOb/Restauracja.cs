@@ -10,6 +10,11 @@ namespace Restaurant
     {
         Dictionary<string, Zamowienie> zamowienia;
         List<Danie> dania;
-        private Stack<Konto> listaKont;
+        private List<Konto> konta;
+        private List<Pracownik> pracownik;
+        string domena;
+
+
+        //Restauracja Dodaj konto (stworzenie klienta/pracownika)
     }
 }

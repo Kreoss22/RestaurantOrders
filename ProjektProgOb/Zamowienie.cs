@@ -13,9 +13,15 @@ namespace Restaurant
         private DateTime dataZamowienia;
         static int indeks;
         
-        public Zamowienie(List<>)
+        static Zamowienie()
         {
+            indeks = 0;
+        }
 
+        public Zamowienie(List<(Danie, int)> zamowioneDania, DateTime dataZamowienia)
+        {
+            this.dataZamowienia = dataZamowienia;
+            this.zamowioneDania = zamowioneDania;
         }
     }
 }

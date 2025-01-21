@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Restaurant
 {
     abstract class Osoba
     {
-        protected string imie;
-        protected string nazwisko;
-        protected string email;
-        protected string nrTel;
+        private string imie;
+        private string nazwisko;
+        private string email;
+        private string nrTel;
 
         public string Email
         {
-            get => email; init
+            get => email; set
             {
                 if (!Regex.IsMatch(value, @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"))
                 {
@@ -27,7 +29,7 @@ namespace Restaurant
 
         public string NrTel
         {
-            get => nrTel; init
+            get => nrTel; set
             {
                 if (!Regex.IsMatch(value, @"\d{9}"))
                 {
@@ -36,5 +38,7 @@ namespace Restaurant
                 nrTel = value;
             }
         }
+        public string Imie { get => imie; set => imie = value; }
+        public string Nazwisko { get => nazwisko; set => nazwisko = value; }
     }
 }

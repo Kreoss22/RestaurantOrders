@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
+    enum enumPozycja
+    {
+        kelner,
+        szefKuchni,
+        podkuchenny,
+        admin
+    }
+
     internal class Pracownik : Osoba
     {
-        string pozycja;
+        enumPozycja pozycja;
         bool czyKucharz;
         string pesel;
 
         public string Pesel
         {
-            get => pesel; init
+            get => pesel; set
             {
                 if (!Regex.IsMatch(value, @"\d{11}"))
                 {
@@ -23,6 +31,8 @@ namespace Restaurant
                 pesel = value;
             }
         }
+
+
 
     }
 }
