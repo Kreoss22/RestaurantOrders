@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Restaurant
@@ -32,7 +33,14 @@ namespace Restaurant
             }
         }
 
+        internal enumPozycja Pozycja { get => pozycja; set => pozycja = value; }
+        public bool CzyKucharz { get => czyKucharz; set => czyKucharz = value; }
 
-
+        public Pracownik(enumPozycja pozycja, bool czyKucharz, string pesel, string imie, string nazwisko, string email, string nrTel) : base(imie, nazwisko, email, nrTel)
+        {
+            this.Pozycja = pozycja;
+            this.CzyKucharz = czyKucharz;
+            Pesel = pesel;
+        }
     }
 }

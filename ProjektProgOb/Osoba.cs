@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,5 +41,13 @@ namespace Restaurant
         }
         public string Imie { get => imie; set => imie = value; }
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
+
+        public Osoba(string imie, string nazwisko, string email, string nrTel)
+        {
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Email = email;
+            NrTel = nrTel;
+        }
     }
 }
