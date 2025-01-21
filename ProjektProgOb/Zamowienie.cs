@@ -22,7 +22,6 @@ namespace Restaurant
         {
             this.dataZamowienia = dataZamowienia;
             this.zamowioneDania = zamowioneDania;
-
         }
     }
 }

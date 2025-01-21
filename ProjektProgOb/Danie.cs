@@ -25,5 +25,6 @@ namespace Restaurant
         private List<string> składniki;
         private decimal cena;
 
+
     }
 }

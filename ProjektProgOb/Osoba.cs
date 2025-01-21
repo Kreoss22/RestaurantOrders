@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -9,10 +10,10 @@ namespace Restaurant
 {
     abstract class Osoba
     {
-        protected string imie;
-        protected string nazwisko;
-        protected string email;
-        protected string nrTel;
+        private string imie;
+        private string nazwisko;
+        private string email;
+        private string nrTel;
 
         public string Email
         {
@@ -37,5 +38,7 @@ namespace Restaurant
                 nrTel = value;
             }
         }
+        public string Imie { get => imie; set => imie = value; }
+        public string Nazwisko { get => nazwisko; set => nazwisko = value; }
     }
 }

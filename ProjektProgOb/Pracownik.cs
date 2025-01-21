@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
+    enum enumPozycja
+    {
+        kelner,
+        szefKuchni,
+        podkuchenny,
+        admin
+    }
+
     internal class Pracownik : Osoba
     {
-        string pozycja;
+        enumPozycja pozycja;
         bool czyKucharz;
         string pesel;
 
@@ -23,6 +31,8 @@ namespace Restaurant
                 pesel = value;
             }
         }
+
+
 
     }
 }
