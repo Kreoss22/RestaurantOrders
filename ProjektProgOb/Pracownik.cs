@@ -7,19 +7,12 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    enum enumPozycja
-    {
-        kelner,
-        szefKuchni,
-        podkuchenny,
-        admin
-    }
-
     internal class Pracownik : Osoba
     {
-        enumPozycja pozycja;
+        string pozycja;
         bool czyKucharz;
         string pesel;
+        bool czyAktywny;
 
         public string Pesel
         {
@@ -33,14 +26,15 @@ namespace Restaurant
             }
         }
 
-        internal enumPozycja Pozycja { get => pozycja; set => pozycja = value; }
+        internal string Pozycja { get => pozycja; set => pozycja = value; }
         public bool CzyKucharz { get => czyKucharz; set => czyKucharz = value; }
 
-        public Pracownik(enumPozycja pozycja, bool czyKucharz, string pesel, string imie, string nazwisko, string email, string nrTel) : base(imie, nazwisko, email, nrTel)
+        public Pracownik(string pozycja, bool czyKucharz, string pesel, string imie, string nazwisko, string email, string nrTel) : base(imie, nazwisko, email, nrTel)
         {
-            this.Pozycja = pozycja;
-            this.CzyKucharz = czyKucharz;
+            Pozycja = pozycja;
+            CzyKucharz = czyKucharz;
             Pesel = pesel;
+            czyAktywny = true;
         }
     }
 }

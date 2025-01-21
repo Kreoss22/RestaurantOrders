@@ -25,6 +25,12 @@ namespace Restaurant
         private List<string> składniki;
         private decimal cena;
 
-
+        public Danie(string nazwa, EnumKategorieDan kategoria, List<string> składniki, decimal cena)
+        {
+            this.nazwa = nazwa;
+            this.kategoria = kategoria;
+            this.składniki = składniki;
+            this.cena = cena;
+        }
     }
 }
