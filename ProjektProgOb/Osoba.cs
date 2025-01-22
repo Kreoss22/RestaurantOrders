@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Restaurant
 {
-    abstract class Osoba
+    public abstract class Osoba
     {
         private string imie;
         private string nazwisko;

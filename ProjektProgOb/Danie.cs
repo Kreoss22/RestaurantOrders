@@ -6,26 +6,14 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    enum EnumKategorieDan
-    {
-        Przystawki,
-        Pizza,
-        Makarony,
-        Glowne,
-        Zimne,
-        Gorace,
-        Piwo,
-        Wino,
-        Mocne
-    }
-    internal class Danie
+    public class Danie
     {
         private string nazwa;
-        private EnumKategorieDan kategoria;
+        private string kategoria;
         private List<string> składniki;
         private decimal cena;
 
-        public Danie(string nazwa, EnumKategorieDan kategoria, List<string> składniki, decimal cena)
+        public Danie(string nazwa, string kategoria, List<string> składniki, decimal cena)
         {
             this.nazwa = nazwa;
             this.kategoria = kategoria;

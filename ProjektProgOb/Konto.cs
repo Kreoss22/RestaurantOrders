@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    enum EnumUprawienia
+    public enum EnumUprawienia
     {
         klient,
         admin,
         pracownik
     }
-    internal class Konto
+    public class Konto
     {
         string login;
         string haslo;
@@ -21,19 +21,22 @@ namespace Restaurant
 
         public string Login {  get { return login; } set { login = value; } }
 
+        public string Haslo { get => haslo; set => haslo = value; }
+        public EnumUprawienia Uprawienia { get => uprawienia; set => uprawienia = value; }
+
         public Konto(Klient klient, string haslo)
         {
-            this.haslo = haslo;
+            this.Haslo = haslo;
             this.login = klient.Email;
-            this.uprawienia = EnumUprawienia.klient;
+            this.Uprawienia = EnumUprawienia.klient;
             this.wlasciciel = klient;
         }
 
         public Konto(Pracownik pracownik, string haslo, EnumUprawienia uprawienia)
         {
-            this.haslo = haslo;
+            this.Haslo = haslo;
             this.login = pracownik.Email;
-            this.uprawienia = uprawienia;
+            this.Uprawienia = uprawienia;
             this.wlasciciel = pracownik;
         }
     }

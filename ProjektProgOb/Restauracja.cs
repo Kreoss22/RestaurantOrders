@@ -6,24 +6,35 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Restauracja
+    public class Restauracja
     {
         Dictionary<string, Zamowienie> zamowienia; // klucz - id zamowienia
         List<Danie> dania;
         private List<Konto> konta;
         private List<Pracownik> pracownicy;
-        string domena;
-        string nazwa;
+        private List<string> kategorieDan;
+        private string domena;
+        private string nazwa;
 
+        public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
+        public List<Konto> Konta { get => konta; set => konta = value; }
+        public List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
+        public Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
+        public List<Danie> Dania { get => dania; set => dania = value; }
+        public string Nazwa { get => nazwa; set => nazwa = value; }
+        public string Domena { get => domena; set => domena = value; }
 
         public Restauracja(string domena, string nazwa)
         {
-            this.domena = domena;
-            this.nazwa = nazwa;
-            this.pracownicy = new List<Pracownik>();
-            this.konta = new List<Konto>();
-            this.zamowienia = new Dictionary<string, Zamowienie>();
-            this.dania = new List<Danie>();
+            this.Domena = domena;
+            this.Nazwa = nazwa;
+            this.Pracownicy = new List<Pracownik>();
+            this.Konta = new List<Konto>();
+            this.Dania = new List<Danie>();
+            this.Zamowienia = new Dictionary<string, Zamowienie>();
+            this.KategorieDan = new List<string>();
         }
+
+        
     }
 }

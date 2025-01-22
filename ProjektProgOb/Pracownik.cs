@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Pracownik : Osoba
+    public class Pracownik : Osoba
     {
         string pozycja;
         bool czyKucharz;
@@ -26,7 +26,7 @@ namespace Restaurant
             }
         }
 
-        internal string Pozycja { get => pozycja; set => pozycja = value; }
+        public string Pozycja { get => pozycja; set => pozycja = value; }
         public bool CzyKucharz { get => czyKucharz; set => czyKucharz = value; }
 
         public Pracownik(string pozycja, bool czyKucharz, string pesel, string imie, string nazwisko, string email, string nrTel) : base(imie, nazwisko, email, nrTel)
@@ -34,7 +34,7 @@ namespace Restaurant
             Pozycja = pozycja;
             CzyKucharz = czyKucharz;
             Pesel = pesel;
-            czyAktywny = true;
+            this.czyAktywny = true;
         }
     }
 }
