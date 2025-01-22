@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Zamowienie
+    public class Zamowienie
     {
         private string idZamowienia;
         private List<(Danie, int)> zamowioneDania; //int - ilosc

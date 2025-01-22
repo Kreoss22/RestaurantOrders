@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,16 @@ namespace RestaurantGUI
     /// <summary>
     /// Logika interakcji dla klasy admin.xaml
     /// </summary>
-    public partial class admin : Window
+    public partial class Admin : Window
     {
-        public admin()
+        Restauracja restauracja;
+        Konto kontoAdmina;
+        string obecnaTabela;
+
+        public Admin()
         {
             InitializeComponent();
         }
+
     }
 }

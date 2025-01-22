@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
-    internal class Klient : Osoba
+    public class Klient : Osoba
     {
         List<Zamowienie> listaZamowien;
 
