@@ -4,10 +4,10 @@
         Title="Panel Administratora" Height="450" Width="800" Background="#2F4F4F">
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="30,50,0,0">
-            <Button Name="btnDane" Content="Dane" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button Name="btnPracownik" Content="Pracownik" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button Name="btnKlienci" Content="Klienci" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button Name="btnKonta" Content="Konta" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <Button x:Name="btnDania" Content="Dania" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <Button x:Name="btnPracownicy" Content="Pracownicy" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <Button x:Name="btnKlienci" Content="Klienci" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <Button x:Name="btnKonta" Content="Konta" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
         </StackPanel>
 
         <ListBox Name="lstDane" Width="550" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Margin="211,25,0,0"/>
