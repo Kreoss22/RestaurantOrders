@@ -43,5 +43,11 @@ namespace Restaurant
             Pesel = pesel;
             this.czyAktywny = true;
         }
+
+        public override string ToString()
+        {
+            string aktywnyString = this.czyAktywny == true ? "Aktywny" : "Nieaktywny";
+            return $"{this.Imie} {this.Nazwisko} - {this.Pozycja} {aktywnyString}, {NrTel} {Email}";
+        }
     }
 }

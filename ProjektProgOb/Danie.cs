@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -16,16 +16,18 @@ namespace Restaurant
         [DataMember]
         private string kategoria;
         [DataMember]
-        private List<string> składniki;
-        [DataMember]
         private decimal cena;
 
         public Danie(string nazwa, string kategoria, List<string> składniki, decimal cena)
         {
             this.nazwa = nazwa;
             this.kategoria = kategoria;
-            this.składniki = składniki;
             this.cena = cena;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.nazwa} {this.kategoria} - {this.cena}";
         }
     }
 }
