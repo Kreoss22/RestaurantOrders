@@ -13,20 +13,21 @@ namespace Restaurant
     [DataContract]
     public class Restauracja
     {
-        [DataMember]
-        Dictionary<string, Zamowienie> zamowienia; // klucz - id zamowienia
-        [DataMember]
-        List<Danie> dania;
-        [DataMember]
-        private List<Konto> konta;
-        [DataMember]
-        private List<Pracownik> pracownicy;
-        [DataMember]
-        private List<string> kategorieDan;
-        [DataMember]
+        [DataMember (Order =1)]
         private string domena;
-        [DataMember]
+        [DataMember(Order =2)]
         private string nazwa;
+        [DataMember(Order =5)]
+        Dictionary<string, Zamowienie> zamowienia; // klucz - id zamowienia
+        [DataMember(Order =6)]
+        List<Danie> dania;
+        [DataMember(Order= 4)]
+        private List<Konto> konta;
+        [DataMember(Order =3)]
+        private List<Pracownik> pracownicy;
+        [DataMember(Order =7)]
+        private List<string> kategorieDan;
+        
 
         public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
         public List<Konto> Konta { get => konta; set => konta = value; }
@@ -95,9 +96,9 @@ namespace Restaurant
         }
         public bool ZapiszXML(string nazwa)
         {
-            if (konta == null || konta.Count == 0)
+            if (konta == null || konta.Count == 0) // Sprawdzamy czy restauracja zawiera dane
             {
-                Console.WriteLine("No data to serialize.");
+                Console.WriteLine("Brak danych"); 
                 return false;
             }
 
@@ -112,15 +113,12 @@ namespace Restaurant
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Serialization failed: {ex.Message}");
+                Console.WriteLine($"Blad serializacji {ex.Message}"); //komunikat bledu serializacji
                 return false;
             }
         }
-        public override string ToString()
-        {
-            return $"{konta.Count}";
-        }
-        /* //Nie Działą
+        
+        /* //Nie Działa
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }
