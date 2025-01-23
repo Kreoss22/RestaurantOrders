@@ -36,7 +36,7 @@ namespace RestaurantGUI
                     switch (konto.Uprawienia)
                     {
                         case EnumUprawienia.admin:
-                            Admin admin = new Admin();
+                            Admin admin = new Admin(this.restauracja, "pracownicy");
                             admin.Show();
                             this.Close();
                             break;
@@ -49,7 +49,7 @@ namespace RestaurantGUI
                     }
                 }
             }
-            Admin admin1 = new Admin();
+            Admin admin1 = new Admin(this.restauracja, "pracownicy");
             admin1.Show();
             this.Close();
         }

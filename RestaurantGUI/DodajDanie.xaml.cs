@@ -23,5 +23,10 @@ namespace RestaurantGUI
         {
             InitializeComponent();
         }
+
+        private void txtNazwa_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,7 +57,7 @@ namespace Restaurant
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
             if (konta.Any(k => k.Login == noweKonto.Login))
             {
-                throw new ArgumentException("Konto o podanym emailu jest już zarejestrowane!");
+                throw new ArgumentException("Konto o podanym loginie jest już zarejestrowane!");
             }
 
             // Dodanie konta do listy
@@ -66,10 +66,10 @@ namespace Restaurant
         }
 
         // Dodanie konta pracownika
-        public void DodajKontoPracownika(string imie, string nazwisko, string email, string nrTel, string pozycja, bool czyKucharz, string pesel, string haslo, EnumUprawienia uprawienia)
+        public void DodajKontoPracownika(string imie, string nazwisko, string email, string nrTel, string pozycja, bool czyKucharz, string pesel, string haslo, EnumUprawienia uprawienia, string login)
         {
             Pracownik nowyPracownik = new Pracownik(pozycja, czyKucharz, pesel, imie, nazwisko, email, nrTel);
-            Konto noweKonto = new Konto(nowyPracownik, haslo, uprawienia);
+            Konto noweKonto = new Konto(nowyPracownik, haslo, uprawienia, login);
 
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
             if (konta.Any(k => k.Login == noweKonto.Login))
@@ -94,6 +94,79 @@ namespace Restaurant
                 .Select(k => (Klient)k.Wlasciciel) // Rzutujemy Wlasciciel na Klient
                 .ToList();
         }
+      
+        // Usuwanie pracownika po peselu
+        public void UsunPracownika(string pesel)
+        {
+            var pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
+            if (pracownikDoUsuniecia == null)
+            {
+                throw new ArgumentException("Pracownik o podanym peselu nie istnieje.");
+            }
+
+            pracownicy.Remove(pracownikDoUsuniecia);
+
+            // Usunięcie powiązanego konta
+            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Pracownik && ((Pracownik)k.Wlasciciel).Pesel == pesel);
+            if (kontoDoUsuniecia != null)
+            {
+                konta.Remove(kontoDoUsuniecia);
+            }
+
+            Console.WriteLine($"Pracownik o peselu {pesel} został usunięty.");
+        }
+
+        // Usuwanie klienta po emailu
+        public void UsunKlienta(string email)
+        {
+            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == email);
+            if (kontoDoUsuniecia == null)
+            {
+                throw new ArgumentException("Klient o podanym emailu nie istnieje.");
+            }
+
+            konta.Remove(kontoDoUsuniecia);
+
+            Console.WriteLine($"Klient o emailu {email} został usunięty.");
+        }
+
+        // Edytowanie pracownika po peselu
+        public void EdytujPracownika(string pesel, Pracownik nowyPracownik)
+        {
+            var pracownikDoEdycji = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
+            if (pracownikDoEdycji == null)
+            {
+                throw new ArgumentException("Pracownik o podanym peselu nie istnieje.");
+            }
+
+            pracownicy.Remove(pracownikDoEdycji);
+            pracownicy.Add(nowyPracownik);
+
+            // Edytowanie powiązanego konta
+            var kontoDoEdycji = konta.FirstOrDefault(k => k.Wlasciciel is Pracownik && ((Pracownik)k.Wlasciciel).Pesel == pesel);
+            if (kontoDoEdycji != null)
+            {
+                konta.Remove(kontoDoEdycji);
+                konta.Add(new Konto(nowyPracownik, kontoDoEdycji.Haslo, kontoDoEdycji.Uprawienia, kontoDoEdycji.Login));
+            }
+
+            Console.WriteLine($"Pracownik o peselu {pesel} został zaktualizowany.");
+        }
+
+        // Edytowanie klienta po emailu
+        public void EdytujKlienta(string email, Klient nowyKlient)
+        {
+            var kontoDoEdycji = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == email);
+            if (kontoDoEdycji == null)
+            {
+                throw new ArgumentException("Klient o podanym emailu nie istnieje.");
+            }
+
+            konta.Remove(kontoDoEdycji);
+            konta.Add(new Konto(nowyKlient, kontoDoEdycji.Haslo));
+
+            Console.WriteLine($"Klient o emailu {email} został zaktualizowany.");
+        }
         public bool ZapiszXML(string nazwa)
         {
             if (konta == null || konta.Count == 0) // Sprawdzamy czy restauracja zawiera dane
@@ -116,9 +189,9 @@ namespace Restaurant
                 Console.WriteLine($"Blad serializacji {ex.Message}"); //komunikat bledu serializacji
                 return false;
             }
-        }
         
-        /* //Nie Działa
+        }
+      /* //Nie Działa
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }
@@ -128,3 +201,4 @@ namespace Restaurant
         } */
     }
 }
+
