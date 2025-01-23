@@ -20,16 +20,16 @@ namespace Restaurant
         EnumUprawienia uprawienia;
 
         public string Login {  get { return login; } set { login = value; } }
-
         public string Haslo { get => haslo; set => haslo = value; }
         public EnumUprawienia Uprawienia { get => uprawienia; set => uprawienia = value; }
+        public Osoba Wlasciciel { get => wlasciciel; set => wlasciciel = value; }
 
         public Konto(Klient klient, string haslo)
         {
             this.Haslo = haslo;
             this.login = klient.Email;
             this.Uprawienia = EnumUprawienia.klient;
-            this.wlasciciel = klient;
+            this.Wlasciciel = klient;
         }
 
         public Konto(Pracownik pracownik, string haslo, EnumUprawienia uprawienia)
@@ -37,7 +37,7 @@ namespace Restaurant
             this.Haslo = haslo;
             this.login = pracownik.Email;
             this.Uprawienia = uprawienia;
-            this.wlasciciel = pracownik;
+            this.Wlasciciel = pracownik;
         }
     }
 }
