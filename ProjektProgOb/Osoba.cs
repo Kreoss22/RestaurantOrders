@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,11 +10,16 @@ using System.Xml.Serialization;
 
 namespace Restaurant
 {
+    [DataContract]
     public abstract class Osoba
     {
+        [DataMember]
         private string imie;
+        [DataMember]
         private string nazwisko;
+        [DataMember]
         private string email;
+        [DataMember]
         private string nrTel;
 
         public string Email

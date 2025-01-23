@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,11 +14,16 @@ namespace Restaurant
         admin,
         pracownik
     }
+    [DataContract]
     public class Konto
     {
+        [DataMember]
         string login;
+        [DataMember]
         string haslo;
+        [DataMember]
         Osoba wlasciciel;
+        [DataMember]
         EnumUprawienia uprawienia;
 
         public string Login {  get { return login; } set { login = value; } }
