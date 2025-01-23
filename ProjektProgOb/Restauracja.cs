@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Restaurant
 {
+    [DataContract]
     public class Restauracja
     {
+        [DataMember]
         Dictionary<string, Zamowienie> zamowienia; // klucz - id zamowienia
+        [DataMember]
         List<Danie> dania;
+        [DataMember]
         private List<Konto> konta;
+        [DataMember]
         private List<Pracownik> pracownicy;
+        [DataMember]
         private List<string> kategorieDan;
+        [DataMember]
         private string domena;
+        [DataMember]
         private string nazwa;
 
         public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
@@ -81,5 +93,40 @@ namespace Restaurant
                 .Select(k => (Klient)k.Wlasciciel) // Rzutujemy Wlasciciel na Klient
                 .ToList();
         }
+        public bool ZapiszXML(string nazwa)
+        {
+            if (konta == null || konta.Count == 0)
+            {
+                Console.WriteLine("No data to serialize.");
+                return false;
+            }
+
+            try
+            {
+                DataContractSerializer dcs = new DataContractSerializer(typeof(Restauracja));
+                using (XmlTextWriter writer = new XmlTextWriter(nazwa, Encoding.UTF8))
+                {
+                    dcs.WriteObject(writer, this);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Serialization failed: {ex.Message}");
+                return false;
+            }
+        }
+        public override string ToString()
+        {
+            return $"{konta.Count}";
+        }
+        /* //Nie Działą
+        public static Restauracja OdczytajXml(string nazwa)
+        {
+            if (!File.Exists(nazwa)) { return null; }
+            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto) });
+            using (XmlReader reader = XmlReader.Create(nazwa))
+            return (Restauracja)dsc.ReadObject(reader);
+        } */
     }
 }
