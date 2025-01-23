@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Restaurant
@@ -38,12 +39,31 @@ namespace Restaurant
             this.Wlasciciel = klient;
         }
 
-        public Konto(Pracownik pracownik, string haslo, EnumUprawienia uprawienia)
+        public Konto(Pracownik pracownik, string haslo, EnumUprawienia uprawienia, string login)
         {
-            this.Haslo = haslo;
-            this.login = pracownik.Email;
-            this.Uprawienia = uprawienia;
-            this.Wlasciciel = pracownik;
+            Haslo = haslo;
+            Login = login;
+            Uprawienia = uprawienia;
+            Wlasciciel = pracownik;
+        }
+
+        public override string ToString()
+        {
+            string uprawnieniaString = "";
+            switch (uprawienia)
+            {
+                case EnumUprawienia.klient:
+                    uprawnieniaString = "klient";
+                    break;
+                case EnumUprawienia.admin:
+                    uprawnieniaString = "admin";
+                    break;
+                case EnumUprawienia.pracownik:
+                    uprawnieniaString = "pracownik";
+                    break;
+
+            }
+            return $"{uprawnieniaString} {Login} {wlasciciel.Imie} {wlasciciel.Nazwisko}";
         }
     }
 }
