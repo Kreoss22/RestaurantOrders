@@ -22,14 +22,12 @@ namespace RestaurantGUI
     public partial class Admin : Window
     {
         Restauracja restauracja;
-        Konto kontoAdmina;
         string obecnaTabela;
 
-        public Admin(Restauracja restauracja, Konto kontoAdmina, string obecnaTabela)
+        public Admin(Restauracja restauracja, string obecnaTabela)
         {
             InitializeComponent();
             this.restauracja = restauracja;
-            this.kontoAdmina = kontoAdmina;
             this.obecnaTabela = obecnaTabela;
         }
 
@@ -41,7 +39,7 @@ namespace RestaurantGUI
                     lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
                     break;
                 case "klienci":
-                    //lstDane.ItemsSource = new ObservableCollection<Klient>(restauracja.Pracownicy);
+                    lstDane.ItemsSource = new ObservableCollection<Klient>(restauracja.PobierzListeKlientow());
                     break;
                 case "Dania":
                     lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);

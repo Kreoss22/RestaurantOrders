@@ -10,15 +10,18 @@ namespace Restaurant
     {
         private string nazwa;
         private string kategoria;
-        private List<string> składniki;
         private decimal cena;
 
         public Danie(string nazwa, string kategoria, List<string> składniki, decimal cena)
         {
             this.nazwa = nazwa;
             this.kategoria = kategoria;
-            this.składniki = składniki;
             this.cena = cena;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.nazwa} {this.kategoria} - {this.cena}";
         }
     }
 }
