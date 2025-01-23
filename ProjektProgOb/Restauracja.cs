@@ -35,6 +35,51 @@ namespace Restaurant
             this.KategorieDan = new List<string>();
         }
 
-        
+        // Dodanie konta klienta
+        public void DodajKontoKlienta(string imie, string nazwisko, string email, string nrTel, string haslo)
+        {
+            Klient nowyKlient = new Klient(imie, nazwisko, email, nrTel);
+            Konto noweKonto = new Konto(nowyKlient, haslo);
+
+            // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
+            if (konta.Any(k => k.Login == noweKonto.Login))
+            {
+                throw new ArgumentException("Konto o podanym emailu jest już zarejestrowane!");
+            }
+
+            // Dodanie konta do listy
+            konta.Add(noweKonto);
+            Console.WriteLine("Konto klienta zostało pomyślnie utworzone.");
+        }
+
+        // Dodanie konta pracownika
+        public void DodajKontoPracownika(string imie, string nazwisko, string email, string nrTel, string pozycja, bool czyKucharz, string pesel, string haslo, EnumUprawienia uprawienia)
+        {
+            Pracownik nowyPracownik = new Pracownik(pozycja, czyKucharz, pesel, imie, nazwisko, email, nrTel);
+            Konto noweKonto = new Konto(nowyPracownik, haslo, uprawienia);
+
+            // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
+            if (konta.Any(k => k.Login == noweKonto.Login))
+            {
+                throw new ArgumentException("Konto o podanym emailu jest już zarejestrowane!");
+            }
+
+            // Dodanie konta do listy
+            konta.Add(noweKonto);
+
+            // Dodanie pracownika do listy pracowników
+            pracownicy.Add(nowyPracownik);
+
+            Console.WriteLine("Konto pracownika zostało pomyślnie utworzone.");
+        }
+
+        // Metoda zwracająca listę klientów
+        public List<Klient> PobierzListeKlientow()
+        {
+            return konta
+                .Where(k => k.Wlasciciel is Klient) // Filtrujemy tylko konta klientów
+                .Select(k => (Klient)k.Wlasciciel) // Rzutujemy Wlasciciel na Klient
+                .ToList();
+        }
     }
 }
