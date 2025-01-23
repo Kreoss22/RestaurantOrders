@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Restaurant
 {
+    [DataContract]
+    [KnownType(typeof(Pracownik))]
     public class Pracownik : Osoba
     {
+        [DataMember]
         string pozycja;
+        [DataMember]
         bool czyKucharz;
+        [DataMember]
         string pesel;
+        [DataMember]
         bool czyAktywny;
 
         public string Pesel
