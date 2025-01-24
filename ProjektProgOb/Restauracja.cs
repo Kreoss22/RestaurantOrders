@@ -10,8 +10,23 @@ using System.Xml;
 
 namespace Restaurant
 {
+    interface IRestauracja
+    {
+        void DodajKonto(Konto noweKonto);
+        void DodajPracownika(Pracownik pracownik);
+        void DodajDanie(Danie danie);
+        void DodajZamowienieKlienta(Zamowienie zamowienie, string login);
+        void DodajZamowienieLokalne(Zamowienie zamowienie);
+        void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia);
+        List<Klient> PobierzListeKlientow();
+        void UsunPracownika(string pesel);
+        void UsunKlienta(string email);
+        void EdytujKlienta(string email, Klient nowyKlient);
+        void EdytujPracownika(string pesel, Pracownik nowyPracownik);
+    }
+
     [DataContract]
-    public class Restauracja
+    public class Restauracja : IRestauracja
     {
         [DataMember (Order =1)]
         private string domena;
@@ -49,10 +64,10 @@ namespace Restaurant
         }
 
         // Dodanie konta klienta
-        public void DodajKontoKlienta(Konto noweKonto)
+        public void DodajKonto(Konto noweKonto)
         {
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
-            if (konta.Any(k => k.Login == noweKonto.Login))
+            if (konta.Any(k => k.Equals(noweKonto)))
             {
                 throw new ArgumentException("Konto o podanym loginie jest już zarejestrowane!");
             }
@@ -77,17 +92,6 @@ namespace Restaurant
 
         }
         // Dodanie konta pracownika
-        public void DodajKontoPracownika(Konto noweKonto)
-        {
-            // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
-            if (konta.Any(k => k.Login == noweKonto.Login))
-            {
-                throw new ArgumentException("Konto o podanym emailu jest już zarejestrowane!");
-            }
-
-            // Dodanie konta do listy
-            konta.Add(noweKonto);
-        }
 
         public void DodajDanie(Danie danie)
         {
@@ -95,6 +99,34 @@ namespace Restaurant
             {
                 throw new ArgumentException("Danie o podanej nazwie jest już zarejestrowane!");
             }
+        }
+
+        public void DodajZamowienieKlienta(Zamowienie zamowienie, string login)
+        {
+            if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
+            {
+                throw new ArgumentException("Zamowienia o danym id już istnieje!");
+            }
+            zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
+            Klient znalezionyKlient = (Klient)konta.FirstOrDefault(k => k.Login == login && k.Wlasciciel is Klient).Wlasciciel;
+            if(znalezionyKlient != null)
+            {
+                znalezionyKlient.ListaZamowien.Add(zamowienie); 
+            }
+        }
+
+        public void DodajZamowienieLokalne(Zamowienie zamowienie)
+        {
+            if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
+            {
+                throw new ArgumentException("Zamowienia o danym id już istnieje!");
+            }
+            zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
+        }
+
+        public void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia)
+        {
+            zamowienia[idZamowienia].StanZamowienia = stanZamowienia;
         }
 
         // Metoda zwracająca listę klientów
@@ -175,6 +207,11 @@ namespace Restaurant
             konta.Add(new Konto(nowyKlient, kontoDoEdycji.Haslo));
 
             Console.WriteLine($"Klient o emailu {email} został zaktualizowany.");
+        }
+
+        public void SortujKonta()
+        {
+            Konta.Sort();
         }
         public bool ZapiszXML(string nazwa)
         {

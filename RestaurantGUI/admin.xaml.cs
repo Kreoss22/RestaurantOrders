@@ -18,7 +18,7 @@ using System.Windows.Controls.Primitives;
 namespace RestaurantGUI
 {
     /// <summary>
-    /// Logika interakcji dla klasy admin.xaml
+    /// Logika interakcji dla klasy Admin.xaml
     /// </summary>
     public partial class Admin : Window
     {
@@ -30,10 +30,10 @@ namespace RestaurantGUI
             InitializeComponent();
             this.restauracja = restauracja;
             this.obecnaTabela = obecnaTabela;
-            inicjalizacjaTabeli();
+            InicjalizacjaTabeli();
         }
 
-        private void inicjalizacjaTabeli()
+        private void InicjalizacjaTabeli()
         {
             lstDane.ItemsSource = null;
             switch (this.obecnaTabela)
@@ -66,19 +66,19 @@ namespace RestaurantGUI
                 {
                     case "btnDania":
                         obecnaTabela = "dania";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnPracownicy":
                         obecnaTabela = "pracownicy";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnKlienci":
                         obecnaTabela = "klienci";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnKonta":
                         obecnaTabela = "konta";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     default:
                         tableNameLabel.Content = "Tabela ";
@@ -88,7 +88,7 @@ namespace RestaurantGUI
             }
         }
 
-        private void addPressed(object sender, RoutedEventArgs e)
+        private void AddPressed(object sender, RoutedEventArgs e)
         {
             bool? result;
             switch (this.obecnaTabela)
@@ -109,7 +109,7 @@ namespace RestaurantGUI
                     result = oknoKlienta.ShowDialog();
                     if(result == true)
                     {
-                        this.restauracja.DodajKontoKlienta(kontoKlienta);
+                        this.restauracja.DodajKonto(kontoKlienta);
                         lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
                     }
                     break;
@@ -129,19 +129,24 @@ namespace RestaurantGUI
                     result = oknoKonta.ShowDialog();
                     if(result == true)
                     {
-                        this.restauracja.DodajKontoPracownika(kontoPracownika);
+                        this.restauracja.DodajKonto(kontoPracownika);
                         lstDane.ItemsSource = new ObservableCollection<Konto>(this.restauracja.Konta);
                     }
                     break;
             }
         }
 
-        private void editPressed(object sender, RoutedEventArgs e)
+        private void EditPressed(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void deletePressed(object sender, RoutedEventArgs e)
+        private void DeletePressed(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ZamowieniaPressed()
         {
 
         }
