@@ -5,7 +5,7 @@
     <Grid Margin="20">
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Nazwa:" Foreground="White" FontSize="16"/>
-            <TextBox Name="txtNazwa" Height="30" TextChanged="txtNazwa_TextChanged"/>
+            <TextBox Name="txtNazwa" Height="30"/>
 
             <TextBlock Text="Kategoria:" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
             <ComboBox Name="cmbKategoria" Height="30" SelectedIndex="0">

@@ -144,7 +144,7 @@ namespace Restaurant
             var pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
             if (pracownikDoUsuniecia == null)
             {
-                throw new ArgumentException("Pracownik o podanym peselu nie istnieje.");
+                throw new ArgumentException("Dany pracownik nie istnieje");
             }
 
             pracownicy.Remove(pracownikDoUsuniecia);
@@ -158,17 +158,15 @@ namespace Restaurant
         }
 
         // Usuwanie klienta po emailu
-        public void UsunKlienta(string email)
+        public void UsunKlienta(string login)
         {
-            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == email);
+            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == login);
             if (kontoDoUsuniecia == null)
             {
-                throw new ArgumentException("Klient o podanym emailu nie istnieje.");
+                throw new ArgumentException("Dany klient nie istnieje");
             }
 
             konta.Remove(kontoDoUsuniecia);
-
-            Console.WriteLine($"Klient o emailu {email} został usunięty.");
         }
 
         // Edytowanie pracownika po peselu

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
+using System.CodeDom;
 
 namespace RestaurantGUI
 {
@@ -57,7 +58,7 @@ namespace RestaurantGUI
             }
         }
 
-        private void zmianaTabeli(object sender, RoutedEventArgs e)
+        private void ZmianaTabeli(object sender, RoutedEventArgs e)
         {
             Button? pressedButton = sender as Button;
             if (pressedButton != null)
@@ -143,12 +144,39 @@ namespace RestaurantGUI
 
         private void DeletePressed(object sender, RoutedEventArgs e)
         {
-
+            if(lstDane.SelectedIndex > -1)
+            {
+                switch (this.obecnaTabela)
+                {
+                    case "pracownicy":
+                        Pracownik? selectedEmployee = lstDane.SelectedItem as Pracownik;
+                        if (selectedEmployee is not null)
+                        {
+                            restauracja.UsunPracownika(selectedEmployee.Pesel);
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
+                        break;
+                    case "klienci":
+                        Klient? selectedClient = lstDane.SelectedItem as Klient;
+                        if (selectedClient is not null)
+                        {
+                            restauracja.UsunKlienta(selectedClient.Email);
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
+                        break;
+                    case "dania":
+                        break;
+                    case "konta":
+                        break;
+                }
+            }
         }
 
-        private void ZamowieniaPressed()
+        private void ZamowieniaPressed(object sender, RoutedEventArgs e)
         {
-
+            OknoKelner okno = new OknoKelner(restauracja, EnumUprawienia.admin);
+            okno.Show();
+            this.Close();
         }
     }
 }
