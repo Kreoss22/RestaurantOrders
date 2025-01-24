@@ -18,9 +18,7 @@ namespace Restaurant
             r.DodajKontoPracownika("Kamil", "Robak","kamir@gmail.com", "621341232","Kelner",false, "62341231232","Pracownikhaslo1",EnumUprawienia.pracownik,"Kamik");
             bool result = r.ZapiszXML("restauracja.xml");
             Console.WriteLine(result ? "Zapisano" : "Nie zapisano");
-            Restauracja r2 = Restauracja.OdczytajXml("restauracja.xml");
-            Console.WriteLine(r2);
-            r2.ZapiszXML("rest3.xml");
+            
         }
     }
 }

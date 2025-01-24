@@ -191,17 +191,14 @@ namespace Restaurant
             }
         
         }
-        public override string ToString()
-        {
-            return $"{konta.Count}";
-        }
+      /* //Nie Działa
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }
-            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto), typeof(Zamowienie), typeof(Danie), typeof(Pracownik) });
+            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto) });
             using (XmlReader reader = XmlReader.Create(nazwa))
             return (Restauracja)dsc.ReadObject(reader);
-        } 
+        } */
     }
 }
 
