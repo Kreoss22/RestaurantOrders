@@ -23,8 +23,10 @@ namespace TestRestauracja
         [TestMethod]
         public void TestSerializacjaDoXml() //sprawdza tworzenie pliku xml i jego zawartosc
         {
-            Restauracja r = new("abc", "efg");
-            r.DodajKontoKlienta("abc", "abc", "a@gmail.com", "123123123", "c");
+            Restauracja r = new("abc", "efg",new List<string> { "Pizza"});
+            Klient klient = new Klient("abc", "abc", "a@gmail.com", "123123123");
+            Konto k = new Konto(klient,"c");
+            r.DodajKonto(k);
             r.ZapiszXML("test");
             Assert.IsTrue(File.Exists("./test"));
             string Xml = File.ReadAllText("./test");
@@ -37,9 +39,11 @@ namespace TestRestauracja
         [TestMethod]
         public void TestPowtorkaEmail() //sprawdza czy poprawnie odrzucane sa powtorzone adresy email
         {
-            Restauracja r = new("abc", "efg");
-            r.DodajKontoKlienta("abc", "abc", "a@gmail.com", "123123123", "c");
-            Assert.ThrowsException<ArgumentException>(() => r.DodajKontoKlienta("a", "b", "a@gmail.com", "123123123","c"));
+            Restauracja r = new("abc", "efg", new List<string> { "Pizza" });
+            Klient klient = new Klient();
+            Konto k = new Konto(EnumUprawienia.klient, klient);
+            r.DodajKonto(k);
+            Assert.ThrowsException<ArgumentException>(() => r.DodajKonto(k));
         }
     }
 
