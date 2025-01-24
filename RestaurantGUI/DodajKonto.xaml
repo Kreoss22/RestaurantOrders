@@ -1,26 +1,20 @@
 ﻿<Window x:Class="RestaurantGUI.DodajKonto"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodaj Konto" Height="400" Width="500" Background="#2F4F4F">
+        Title="Dodaj Konto Pracownika" Height="300" Width="500" Background="#2F4F4F">
     <Grid Margin="20">
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Login:" Foreground="White" FontSize="16"/>
             <TextBox x:Name="txtLogin" Height="30"/>
 
             <TextBlock Text="Hasło:" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <PasswordBox x:Name="txtHaslo" Height="30"/>
+            <TextBox x:Name="txtHaslo" Height="30"/>
 
-            <TextBlock Text="Uprawnienia:" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <ComboBox Name="cmbUprawnienia" Height="30">
-                <ComboBoxItem Content="Klient"/>
-                <ComboBoxItem Content="Admin"/>
-                <ComboBoxItem Content="Pracownik"/>
-            </ComboBox>
-
-            <TextBlock Text="Właściciel (Email):" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <TextBlock Text="Email Pracownika:" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
             <TextBox Name="txtWlasciciel" Height="30"/>
 
-            <Button Name="btnDodajKonto" Content="Dodaj" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,0"/>
         </StackPanel>
+        <Button x:Name="btnDodajPracownika" Content="Dodaj" Width="150" Height="40" Background="#0099FF" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="40,190,0,0" Click="DodajBtnClicked"/>
+        <Button x:Name="btnAnuluj" Content="Anuluj" Width="150" Height="40" Background="Red" Foreground="White" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,190,40,0" Click="AnulujBtnClicked" />
     </Grid>
 </Window>

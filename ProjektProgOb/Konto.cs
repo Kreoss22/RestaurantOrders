@@ -31,6 +31,14 @@ namespace Restaurant
         public EnumUprawienia Uprawienia { get => uprawienia; set => uprawienia = value; }
         public Osoba Wlasciciel { get => wlasciciel; set => wlasciciel = value; }
 
+        public Konto(EnumUprawienia uprawienia, Osoba wlasciciel)
+        {
+            this.Haslo = string.Empty;
+            this.Login = string.Empty;
+            this.Uprawienia = uprawienia;
+            this.Wlasciciel = wlasciciel;
+        }
+
         public Konto(Klient klient, string haslo)
         {
             this.Haslo = haslo;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,41 @@ namespace RestaurantGUI
     /// </summary>
     public partial class DodajKonto : Window
     {
-        public DodajKonto()
+        private Konto konto;
+        List<Pracownik> pracownicy;
+        public DodajKonto(Konto konto, List<Pracownik> pracownicy)
         {
             InitializeComponent();
+            this.konto = konto;
+            this.pracownicy = pracownicy;
+        }
+
+        public void DodajBtnClicked(object sender, RoutedEventArgs e)
+        {
+            if (txtLogin.Text != "" || txtHaslo.Text != "" || txtWlasciciel.Text != "")
+            {
+                var pracownik = pracownicy.FirstOrDefault(p => p.Email == txtWlasciciel.Text);
+                if (pracownik == null)
+                {
+                    MessageBox.Show("Prak pracownika z danym adresem email");
+                }
+                else
+                {
+                    konto.Wlasciciel = pracownik;
+                    konto.Haslo = txtHaslo.Text;
+                    konto.Login = txtLogin.Text;
+                    DialogResult = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wypełnij wszystkie pola");
+            }
+        }
+
+        public void AnulujBtnClicked(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }

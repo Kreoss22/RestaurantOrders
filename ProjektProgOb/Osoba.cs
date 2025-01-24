@@ -18,9 +18,9 @@ namespace Restaurant
         [DataMember]
         private string nazwisko;
         [DataMember]
-        private string email;
+        private string? email;
         [DataMember]
-        private string nrTel;
+        private string? nrTel;
 
         public string Email
         {
@@ -47,6 +47,12 @@ namespace Restaurant
         }
         public string Imie { get => imie; set => imie = value; }
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
+
+        public Osoba()
+        {
+            Imie = string.Empty;
+            Nazwisko = string.Empty;
+        }
 
         public Osoba(string imie, string nazwisko, string email, string nrTel)
         {
