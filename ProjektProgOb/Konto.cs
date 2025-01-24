@@ -10,12 +10,12 @@ namespace Restaurant
 {
     public enum EnumUprawienia
     {
-        klient,
-        admin,
-        pracownik
+        admin = 0,
+        pracownik = 1,
+        klient = 2
     }
     [DataContract]
-    public class Konto
+    public class Konto : IComparable<Konto>, IEquatable<Konto>
     {
         [DataMember]
         string login;
@@ -72,6 +72,29 @@ namespace Restaurant
 
             }
             return $"{uprawnieniaString} {Login} {wlasciciel.Imie} {wlasciciel.Nazwisko}";
+        }
+
+        public int CompareTo(Konto other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            int result = uprawienia.CompareTo(other.uprawienia);
+            if (result != 0) return result;
+
+            result = string.Compare(wlasciciel.Nazwisko, other.wlasciciel.Nazwisko, StringComparison.Ordinal);
+            if (result != 0) return result;
+
+            return string.Compare(wlasciciel.Imie, other.wlasciciel.Imie, StringComparison.Ordinal);
+
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(Konto other)
+        {
+            if (other is null) return false;
+            return login.Equals(other.login);
         }
     }
 }
