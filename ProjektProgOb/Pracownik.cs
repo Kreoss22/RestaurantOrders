@@ -15,11 +15,9 @@ namespace Restaurant
         [DataMember]
         string pozycja;
         [DataMember]
-        bool czyKucharz;
+        bool? czyKucharz;
         [DataMember]
-        string pesel;
-        [DataMember]
-        bool czyAktywny;
+        string? pesel;
 
         public string Pesel
         {
@@ -34,20 +32,23 @@ namespace Restaurant
         }
 
         public string Pozycja { get => pozycja; set => pozycja = value; }
-        public bool CzyKucharz { get => czyKucharz; set => czyKucharz = value; }
-
+        public bool? CzyKucharz { get => czyKucharz; set => czyKucharz = value; }
+        
+        public Pracownik() : base()
+        {
+            Pozycja = string.Empty;
+            CzyKucharz = false;
+        }
         public Pracownik(string pozycja, bool czyKucharz, string pesel, string imie, string nazwisko, string email, string nrTel) : base(imie, nazwisko, email, nrTel)
         {
             Pozycja = pozycja;
             CzyKucharz = czyKucharz;
             Pesel = pesel;
-            this.czyAktywny = true;
         }
 
         public override string ToString()
         {
-            string aktywnyString = this.czyAktywny == true ? "Aktywny" : "Nieaktywny";
-            return $"{this.Imie} {this.Nazwisko} - {this.Pozycja} {aktywnyString}, {NrTel} {Email}";
+            return $"{this.Imie} {this.Nazwisko} - {this.Pozycja}, {NrTel} {Email}";
         }
     }
 }

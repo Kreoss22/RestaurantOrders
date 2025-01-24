@@ -3,19 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Panel Administratora" Height="450" Width="800" Background="#2F4F4F">
     <Grid>
+        <Label x:Name="tableNameLabel" Content="Tabela Pracownicy" HorizontalAlignment="Left" Margin="25,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontWeight="Bold"/>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="30,50,0,0">
-            <Button x:Name="btnDania" Content="Dania" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button x:Name="btnPracownicy" Content="Pracownicy" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button x:Name="btnKlienci" Content="Klienci" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
-            <Button x:Name="btnKonta" Content="Konta" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0"/>
+            <Button x:Name="btnDania" Content="Dania" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0" Click="zmianaTabeli"/>
+            <Button x:Name="btnPracownicy" Content="Pracownicy" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0" Click="zmianaTabeli"/>
+            <Button x:Name="btnKlienci" Content="Klienci" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0" Click="zmianaTabeli"/>
+            <Button x:Name="btnKonta" Content="Konta" Width="150" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="0,10,0,0" Click="zmianaTabeli"/>
         </StackPanel>
 
         <ListBox Name="lstDane" Width="550" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Margin="211,25,0,0"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,340,0,0" Width="546">
-            <Button x:Name="btnDodaj" Content="Dodaj" Width="100" Height="40" Background="LimeGreen" Foreground="White" FontSize="16"/>
-            <Button x:Name="btnUsun" Content="Usuń" Width="100" Height="40" Background="red" Foreground="White" FontSize="16" Margin="230,0,0,0" HorizontalAlignment="Left"/>
-            <Button x:Name="btnEdytuj" Content="Edytuj" Width="100" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="15,0,0,0" HorizontalAlignment="Left"/>
+            <Button x:Name="btnDodaj" Content="Dodaj" Width="100" Height="40" Background="LimeGreen" Foreground="White" FontSize="16" Click="addPressed"/>
+            <Button x:Name="btnUsun" Content="Usuń" Width="100" Height="40" Background="red" Foreground="White" FontSize="16" Margin="230,0,0,0" HorizontalAlignment="Left" Click="deletePressed"/>
+            <Button x:Name="btnEdytuj" Content="Edytuj" Width="100" Height="40" Background="#0099FF" Foreground="White" FontSize="16" Margin="15,0,0,0" HorizontalAlignment="Left" Click="editPressed"/>
         </StackPanel>
     </Grid>
 </Window>

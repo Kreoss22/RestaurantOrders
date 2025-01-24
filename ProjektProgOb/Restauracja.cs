@@ -30,14 +30,14 @@ namespace Restaurant
         
 
         public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
-        public List<Konto> Konta { get => konta; set => konta = value; }
-        public List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
-        public Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
-        public List<Danie> Dania { get => dania; set => dania = value; }
+        public virtual List<Konto> Konta { get => konta; set => konta = value; }
+        public virtual List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
+        public virtual Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
+        public virtual List<Danie> Dania { get => dania; set => dania = value; }
         public string Nazwa { get => nazwa; set => nazwa = value; }
         public string Domena { get => domena; set => domena = value; }
 
-        public Restauracja(string domena, string nazwa)
+        public Restauracja(string domena, string nazwa, List<string> kategorieDan)
         {
             this.Domena = domena;
             this.Nazwa = nazwa;
@@ -45,15 +45,12 @@ namespace Restaurant
             this.Konta = new List<Konto>();
             this.Dania = new List<Danie>();
             this.Zamowienia = new Dictionary<string, Zamowienie>();
-            this.KategorieDan = new List<string>();
+            this.KategorieDan = kategorieDan;
         }
 
         // Dodanie konta klienta
-        public void DodajKontoKlienta(string imie, string nazwisko, string email, string nrTel, string haslo)
+        public void DodajKontoKlienta(Konto noweKonto)
         {
-            Klient nowyKlient = new Klient(imie, nazwisko, email, nrTel);
-            Konto noweKonto = new Konto(nowyKlient, haslo);
-
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
             if (konta.Any(k => k.Login == noweKonto.Login))
             {
@@ -62,15 +59,26 @@ namespace Restaurant
 
             // Dodanie konta do listy
             konta.Add(noweKonto);
-            Console.WriteLine("Konto klienta zostało pomyślnie utworzone.");
         }
 
-        // Dodanie konta pracownika
-        public void DodajKontoPracownika(string imie, string nazwisko, string email, string nrTel, string pozycja, bool czyKucharz, string pesel, string haslo, EnumUprawienia uprawienia, string login)
+        //Dodawanie pracownika
+        public void DodajPracownika(Pracownik pracownik)
         {
-            Pracownik nowyPracownik = new Pracownik(pozycja, czyKucharz, pesel, imie, nazwisko, email, nrTel);
-            Konto noweKonto = new Konto(nowyPracownik, haslo, uprawienia, login);
+            if (pracownicy.Any(k => k.Pesel == pracownik.Pesel))
+            {
+                throw new ArgumentException("Już istnieje pracownik z tym peselem!");
+            }
+            if (pracownicy.Any(k => k.Email == pracownik.Email))
+            {
+                throw new ArgumentException("Już istnieje pracownik z tym emailem!");
+            }
 
+            pracownicy.Add(pracownik);
+
+        }
+        // Dodanie konta pracownika
+        public void DodajKontoPracownika(Konto noweKonto)
+        {
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
             if (konta.Any(k => k.Login == noweKonto.Login))
             {
@@ -79,15 +87,18 @@ namespace Restaurant
 
             // Dodanie konta do listy
             konta.Add(noweKonto);
+        }
 
-            // Dodanie pracownika do listy pracowników
-            pracownicy.Add(nowyPracownik);
-
-            Console.WriteLine("Konto pracownika zostało pomyślnie utworzone.");
+        public void DodajDanie(Danie danie)
+        {
+            if (Dania.Any(k => k.Nazwa == danie.Nazwa))
+            {
+                throw new ArgumentException("Danie o podanej nazwie jest już zarejestrowane!");
+            }
         }
 
         // Metoda zwracająca listę klientów
-        public List<Klient> PobierzListeKlientow()
+        public virtual List<Klient> PobierzListeKlientow()
         {
             return konta
                 .Where(k => k.Wlasciciel is Klient) // Filtrujemy tylko konta klientów
@@ -112,8 +123,6 @@ namespace Restaurant
             {
                 konta.Remove(kontoDoUsuniecia);
             }
-
-            Console.WriteLine($"Pracownik o peselu {pesel} został usunięty.");
         }
 
         // Usuwanie klienta po emailu
@@ -191,14 +200,15 @@ namespace Restaurant
             }
         
         }
-      /* //Nie Działa
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }
-            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto) });
+            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto), typeof(Zamowienie), typeof(Danie), typeof(Pracownik) });
             using (XmlReader reader = XmlReader.Create(nazwa))
-            return (Restauracja)dsc.ReadObject(reader);
-        } */
+                return (Restauracja)dsc.ReadObject(reader);
+        }
     }
+
 }
+
 

@@ -7,7 +7,21 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="DodajZamowienie.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="OknoKelner.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="DodajZamowienie.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OknoKelner.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
 
 namespace RestaurantGUI
 {
@@ -29,22 +30,28 @@ namespace RestaurantGUI
             InitializeComponent();
             this.restauracja = restauracja;
             this.obecnaTabela = obecnaTabela;
+            inicjalizacjaTabeli();
         }
 
         private void inicjalizacjaTabeli()
         {
-            switch (obecnaTabela)
+            lstDane.ItemsSource = null;
+            switch (this.obecnaTabela)
             {
                 case "pracownicy":
+                    tableNameLabel.Content = "Tabela Pracownicy";
                     lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
                     break;
                 case "klienci":
+                    tableNameLabel.Content = "Tabela Klienci";
                     lstDane.ItemsSource = new ObservableCollection<Klient>(restauracja.PobierzListeKlientow());
                     break;
-                case "Dania":
+                case "dania":
+                    tableNameLabel.Content = "Tabela Dania";
                     lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);
                     break;
-                case "Konta":
+                case "konta":
+                    tableNameLabel.Content = "Tabela Konta";
                     lstDane.ItemsSource = new ObservableCollection<Konto>(restauracja.Konta);
                     break;
             }
@@ -55,7 +62,6 @@ namespace RestaurantGUI
             Button? pressedButton = sender as Button;
             if (pressedButton != null)
             {
-
                 switch (pressedButton.Name)
                 {
                     case "btnDania":
@@ -75,6 +81,7 @@ namespace RestaurantGUI
                         inicjalizacjaTabeli();
                         break;
                     default:
+                        tableNameLabel.Content = "Tabela ";
                         break;
 
                 }
@@ -83,7 +90,50 @@ namespace RestaurantGUI
 
         private void addPressed(object sender, RoutedEventArgs e)
         {
-
+            bool? result;
+            switch (this.obecnaTabela)
+            {
+                case "pracownicy":
+                    Pracownik pracownik = new Pracownik();
+                    DodajPracownika oknoPracownika = new DodajPracownika(pracownik);
+                    result = oknoPracownika.ShowDialog(); if
+                    (result == true)
+                    {
+                        this.restauracja.DodajPracownika(pracownik);
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(this.restauracja.Pracownicy);
+                    }
+                    break;
+                case "klienci":
+                    Konto kontoKlienta = new Konto(EnumUprawienia.klient, new Klient());
+                    DodajKlienta oknoKlienta = new DodajKlienta(kontoKlienta);
+                    result = oknoKlienta.ShowDialog();
+                    if(result == true)
+                    {
+                        this.restauracja.DodajKontoKlienta(kontoKlienta);
+                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                    }
+                    break;
+                case "dania":
+                    Danie danie = new Danie();
+                    DodajDanie oknoDanie = new DodajDanie(danie);
+                    result = oknoDanie.ShowDialog();
+                    if (result == true)
+                    {
+                        this.restauracja.DodajDanie(danie);
+                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                    }
+                    break;
+                case "konta":
+                    Konto kontoPracownika = new Konto(EnumUprawienia.pracownik, new Pracownik());
+                    DodajKonto oknoKonta = new DodajKonto(kontoPracownika, restauracja.Pracownicy);
+                    result = oknoKonta.ShowDialog();
+                    if(result == true)
+                    {
+                        this.restauracja.DodajKontoPracownika(kontoPracownika);
+                        lstDane.ItemsSource = new ObservableCollection<Konto>(this.restauracja.Konta);
+                    }
+                    break;
+            }
         }
 
         private void editPressed(object sender, RoutedEventArgs e)
