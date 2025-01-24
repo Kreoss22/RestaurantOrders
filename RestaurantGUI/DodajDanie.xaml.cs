@@ -1,4 +1,4 @@
-﻿using Restaurant;
+using Restaurant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +68,5 @@ namespace RestaurantGUI
         {
             e.Handled = !decimal.TryParse(e.Text, out _);
         }
-
     }
 }
