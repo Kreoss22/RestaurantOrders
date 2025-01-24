@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\keram\source\repos\RestaurantOrders\RestaurantGUI\obj\Debug\net8.0-windows\
+C:\Users\keram\Source\Repos\RestaurantOrders\RestaurantGUI\obj\Debug\net8.0-windows\
 RestaurantGUI
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\keram\source\repos\RestaurantOrders\RestaurantGUI\App.xaml
-61821970833
+C:\Users\keram\Source\Repos\RestaurantOrders\RestaurantGUI\App.xaml
+8-1409216563
 
-112090609556
-198-352714763
-admin.xaml;DodajDanie.xaml;DodajKlienta.xaml;DodajKonto.xaml;DodajPracownika.xaml;MainWindow.xaml;
+131209733698
+199301120083
+admin.xaml;DodajDanie.xaml;DodajKlienta.xaml;DodajKonto.xaml;DodajPracownika.xaml;DodajZamowienie.xaml;MainWindow.xaml;OknoKelner.xaml;
 
-False
+True
 
