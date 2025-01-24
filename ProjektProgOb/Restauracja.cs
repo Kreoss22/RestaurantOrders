@@ -10,8 +10,23 @@ using System.Xml;
 
 namespace Restaurant
 {
+    interface IRestauracja
+    {
+        void DodajKonto(Konto noweKonto);
+        void DodajPracownika(Pracownik pracownik);
+        void DodajDanie(Danie danie);
+        void DodajZamowienieKlienta(Zamowienie zamowienie, string login);
+        void DodajZamowienieLokalne(Zamowienie zamowienie);
+        void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia);
+        List<Klient> PobierzListeKlientow();
+        void UsunPracownika(string pesel);
+        void UsunKlienta(string email);
+        void EdytujKlienta(string email, Klient nowyKlient);
+        void EdytujPracownika(string pesel, Pracownik nowyPracownik);
+    }
+
     [DataContract]
-    public class Restauracja
+    public class Restauracja : IRestauracja
     {
         [DataMember (Order =1)]
         private string domena;
@@ -30,14 +45,14 @@ namespace Restaurant
         
 
         public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
-        public List<Konto> Konta { get => konta; set => konta = value; }
-        public List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
-        public Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
-        public List<Danie> Dania { get => dania; set => dania = value; }
+        public virtual List<Konto> Konta { get => konta; set => konta = value; }
+        public virtual List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
+        public virtual Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
+        public virtual List<Danie> Dania { get => dania; set => dania = value; }
         public string Nazwa { get => nazwa; set => nazwa = value; }
         public string Domena { get => domena; set => domena = value; }
 
-        public Restauracja(string domena, string nazwa)
+        public Restauracja(string domena, string nazwa, List<string> kategorieDan)
         {
             this.Domena = domena;
             this.Nazwa = nazwa;
@@ -45,49 +60,77 @@ namespace Restaurant
             this.Konta = new List<Konto>();
             this.Dania = new List<Danie>();
             this.Zamowienia = new Dictionary<string, Zamowienie>();
-            this.KategorieDan = new List<string>();
+            this.KategorieDan = kategorieDan;
         }
 
         // Dodanie konta klienta
-        public void DodajKontoKlienta(string imie, string nazwisko, string email, string nrTel, string haslo)
+        public void DodajKonto(Konto noweKonto)
         {
-            Klient nowyKlient = new Klient(imie, nazwisko, email, nrTel);
-            Konto noweKonto = new Konto(nowyKlient, haslo);
-
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
-            if (konta.Any(k => k.Login == noweKonto.Login))
+            if (konta.Any(k => k.Equals(noweKonto)))
             {
                 throw new ArgumentException("Konto o podanym loginie jest już zarejestrowane!");
             }
 
             // Dodanie konta do listy
             konta.Add(noweKonto);
-            Console.WriteLine("Konto klienta zostało pomyślnie utworzone.");
         }
 
-        // Dodanie konta pracownika
-        public void DodajKontoPracownika(string imie, string nazwisko, string email, string nrTel, string pozycja, bool czyKucharz, string pesel, string haslo, EnumUprawienia uprawienia, string login)
+        //Dodawanie pracownika
+        public void DodajPracownika(Pracownik pracownik)
         {
-            Pracownik nowyPracownik = new Pracownik(pozycja, czyKucharz, pesel, imie, nazwisko, email, nrTel);
-            Konto noweKonto = new Konto(nowyPracownik, haslo, uprawienia, login);
-
-            // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
-            if (konta.Any(k => k.Login == noweKonto.Login))
+            if (pracownicy.Any(k => k.Pesel == pracownik.Pesel))
             {
-                throw new ArgumentException("Konto o podanym emailu jest już zarejestrowane!");
+                throw new ArgumentException("Już istnieje pracownik z tym peselem!");
+            }
+            if (pracownicy.Any(k => k.Email == pracownik.Email))
+            {
+                throw new ArgumentException("Już istnieje pracownik z tym emailem!");
             }
 
-            // Dodanie konta do listy
-            konta.Add(noweKonto);
+            pracownicy.Add(pracownik);
 
-            // Dodanie pracownika do listy pracowników
-            pracownicy.Add(nowyPracownik);
+        }
+        // Dodanie konta pracownika
 
-            Console.WriteLine("Konto pracownika zostało pomyślnie utworzone.");
+        public void DodajDanie(Danie danie)
+        {
+            if (Dania.Any(k => k.Nazwa == danie.Nazwa))
+            {
+                throw new ArgumentException("Danie o podanej nazwie jest już zarejestrowane!");
+            }
+        }
+
+        public void DodajZamowienieKlienta(Zamowienie zamowienie, string login)
+        {
+            if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
+            {
+                throw new ArgumentException("Zamowienia o danym id już istnieje!");
+            }
+            zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
+            Klient znalezionyKlient = (Klient)konta.FirstOrDefault(k => k.Login == login && k.Wlasciciel is Klient).Wlasciciel;
+            if(znalezionyKlient != null)
+            {
+                znalezionyKlient.ListaZamowien.Add(zamowienie); 
+            }
+        }
+
+        public void DodajZamowienieLokalne(Zamowienie zamowienie)
+        {
+            if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
+            {
+                throw new ArgumentException("Zamowienia o danym id już istnieje!");
+            }
+            zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
+        }
+
+        public void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia)
+        {
+            zamowienia[idZamowienia].StanZamowienia = stanZamowienia;
         }
 
         // Metoda zwracająca listę klientów
-        public List<Klient> PobierzListeKlientow()
+        public virtual List<Klient> PobierzListeKlientow()
         {
             return konta
                 .Where(k => k.Wlasciciel is Klient) // Filtrujemy tylko konta klientów
@@ -101,7 +144,7 @@ namespace Restaurant
             var pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
             if (pracownikDoUsuniecia == null)
             {
-                throw new ArgumentException("Pracownik o podanym peselu nie istnieje.");
+                throw new ArgumentException("Dany pracownik nie istnieje");
             }
 
             pracownicy.Remove(pracownikDoUsuniecia);
@@ -112,22 +155,18 @@ namespace Restaurant
             {
                 konta.Remove(kontoDoUsuniecia);
             }
-
-            Console.WriteLine($"Pracownik o peselu {pesel} został usunięty.");
         }
 
         // Usuwanie klienta po emailu
-        public void UsunKlienta(string email)
+        public void UsunKlienta(string login)
         {
-            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == email);
+            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == login);
             if (kontoDoUsuniecia == null)
             {
-                throw new ArgumentException("Klient o podanym emailu nie istnieje.");
+                throw new ArgumentException("Dany klient nie istnieje");
             }
 
             konta.Remove(kontoDoUsuniecia);
-
-            Console.WriteLine($"Klient o emailu {email} został usunięty.");
         }
 
         // Edytowanie pracownika po peselu
@@ -167,6 +206,11 @@ namespace Restaurant
 
             Console.WriteLine($"Klient o emailu {email} został zaktualizowany.");
         }
+
+        public void SortujKonta()
+        {
+            Konta.Sort();
+        }
         public bool ZapiszXML(string nazwa)
         {
             if (konta == null || konta.Count == 0) // Sprawdzamy czy restauracja zawiera dane
@@ -191,14 +235,15 @@ namespace Restaurant
             }
         
         }
-      /* //Nie Działa
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }
-            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto) });
+            DataContractSerializer dsc = new DataContractSerializer(typeof(Restauracja), new List<Type> { typeof(Klient), typeof(Konto), typeof(Zamowienie), typeof(Danie), typeof(Pracownik) });
             using (XmlReader reader = XmlReader.Create(nazwa))
-            return (Restauracja)dsc.ReadObject(reader);
-        } */
+                return (Restauracja)dsc.ReadObject(reader);
+        }
     }
+
 }
+
 

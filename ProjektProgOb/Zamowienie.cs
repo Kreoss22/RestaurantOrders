@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
+    public enum EnumStanZamowienia
+    {
+        Przyjeto,
+        Realizacja,
+        Zrealizowano
+    }
     [DataContract]
     public class Zamowienie
     {
@@ -17,9 +23,14 @@ namespace Restaurant
         [DataMember]
         private DateTime dataZamowienia;
         [DataMember]
-        private int oplaty;
+        private EnumStanZamowienia stanZamowienia;
+        [DataMember]
+        private decimal oplaty;
         [DataMember]
         static int indeks;
+
+        public string IdZamowienia { get => idZamowienia; set => idZamowienia = value; }
+        internal EnumStanZamowienia StanZamowienia { get => stanZamowienia; set => stanZamowienia = value; }
 
         static Zamowienie()
         {
@@ -30,8 +41,20 @@ namespace Restaurant
         {
             this.dataZamowienia = dataZamowienia;
             this.zamowioneDania = zamowioneDania;
-            idZamowienia = $"{dataZamowienia.Year}{dataZamowienia.Month}{dataZamowienia.Day}{indeks.ToString("D7")}";
+            IdZamowienia = $"{dataZamowienia.Year}{dataZamowienia.Month}{dataZamowienia.Day}{indeks.ToString("D7")}";
             this.oplaty = oplaty;
+            indeks++;
+        }
+
+        public decimal CenaZamowienia()
+        {
+            decimal suma = zamowioneDania.Sum(d => d.Item1.Cena * d.Item2);
+            return suma + oplaty;
+        }
+
+        public override string ToString()
+        {
+            return $"{IdZamowienia} {StanZamowienia.ToString()} cena:{this.CenaZamowienia()}zł, l.dań:{zamowioneDania.Sum(d => d.Item2)}";
         }
     }
 }

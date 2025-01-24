@@ -14,9 +14,23 @@ namespace Restaurant
         [DataMember]
         List<Zamowienie> listaZamowien;
 
+
+        public List<Zamowienie> ListaZamowien { get => listaZamowien; set => listaZamowien = value; }
+
+        public Klient() : base() 
+        {
+            ListaZamowien = new List<Zamowienie>();
+        }
+
         public Klient(string imie, string nazwisko, string email, string nrTel) : base(imie,nazwisko, email, nrTel)
         {
-            listaZamowien = new List<Zamowienie>();
+            ListaZamowien = new List<Zamowienie>();
+        }
+
+
+        public override string ToString()
+        {
+            return $"{Imie} {Nazwisko} {Email} {NrTel} l.zam.: {ListaZamowien.Count()}";
         }
     }
 }

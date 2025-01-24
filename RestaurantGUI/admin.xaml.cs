@@ -13,11 +13,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+using System.CodeDom;
 
 namespace RestaurantGUI
 {
     /// <summary>
-    /// Logika interakcji dla klasy admin.xaml
+    /// Logika interakcji dla klasy Admin.xaml
     /// </summary>
     public partial class Admin : Window
     {
@@ -29,71 +31,152 @@ namespace RestaurantGUI
             InitializeComponent();
             this.restauracja = restauracja;
             this.obecnaTabela = obecnaTabela;
+            InicjalizacjaTabeli();
         }
 
-        private void inicjalizacjaTabeli()
+        private void InicjalizacjaTabeli()
         {
-            switch (obecnaTabela)
+            lstDane.ItemsSource = null;
+            switch (this.obecnaTabela)
             {
                 case "pracownicy":
+                    tableNameLabel.Content = "Tabela Pracownicy";
                     lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
                     break;
                 case "klienci":
+                    tableNameLabel.Content = "Tabela Klienci";
                     lstDane.ItemsSource = new ObservableCollection<Klient>(restauracja.PobierzListeKlientow());
                     break;
-                case "Dania":
+                case "dania":
+                    tableNameLabel.Content = "Tabela Dania";
                     lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);
                     break;
-                case "Konta":
+                case "konta":
+                    tableNameLabel.Content = "Tabela Konta";
                     lstDane.ItemsSource = new ObservableCollection<Konto>(restauracja.Konta);
                     break;
             }
         }
 
-        private void zmianaTabeli(object sender, RoutedEventArgs e)
+        private void ZmianaTabeli(object sender, RoutedEventArgs e)
         {
             Button? pressedButton = sender as Button;
             if (pressedButton != null)
             {
-
                 switch (pressedButton.Name)
                 {
                     case "btnDania":
                         obecnaTabela = "dania";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnPracownicy":
                         obecnaTabela = "pracownicy";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnKlienci":
                         obecnaTabela = "klienci";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     case "btnKonta":
                         obecnaTabela = "konta";
-                        inicjalizacjaTabeli();
+                        InicjalizacjaTabeli();
                         break;
                     default:
+                        tableNameLabel.Content = "Tabela ";
                         break;
 
                 }
             }
         }
 
-        private void addPressed(object sender, RoutedEventArgs e)
+        private void AddPressed(object sender, RoutedEventArgs e)
+        {
+            bool? result;
+            switch (this.obecnaTabela)
+            {
+                case "pracownicy":
+                    Pracownik pracownik = new Pracownik();
+                    DodajPracownika oknoPracownika = new DodajPracownika(pracownik);
+                    result = oknoPracownika.ShowDialog(); if
+                    (result == true)
+                    {
+                        this.restauracja.DodajPracownika(pracownik);
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(this.restauracja.Pracownicy);
+                    }
+                    break;
+                case "klienci":
+                    Konto kontoKlienta = new Konto(EnumUprawienia.klient, new Klient());
+                    DodajKlienta oknoKlienta = new DodajKlienta(kontoKlienta);
+                    result = oknoKlienta.ShowDialog();
+                    if(result == true)
+                    {
+                        this.restauracja.DodajKonto(kontoKlienta);
+                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                    }
+                    break;
+                case "dania":
+                    Danie danie = new Danie();
+                    DodajDanie oknoDanie = new DodajDanie(danie);
+                    result = oknoDanie.ShowDialog();
+                    if (result == true)
+                    {
+                        this.restauracja.DodajDanie(danie);
+                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                    }
+                    break;
+                case "konta":
+                    Konto kontoPracownika = new Konto(EnumUprawienia.pracownik, new Pracownik());
+                    DodajKonto oknoKonta = new DodajKonto(kontoPracownika, restauracja.Pracownicy);
+                    result = oknoKonta.ShowDialog();
+                    if(result == true)
+                    {
+                        this.restauracja.DodajKonto(kontoPracownika);
+                        lstDane.ItemsSource = new ObservableCollection<Konto>(this.restauracja.Konta);
+                    }
+                    break;
+            }
+        }
+
+        private void EditPressed(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void editPressed(object sender, RoutedEventArgs e)
+        private void DeletePressed(object sender, RoutedEventArgs e)
         {
-
+            if(lstDane.SelectedIndex > -1)
+            {
+                switch (this.obecnaTabela)
+                {
+                    case "pracownicy":
+                        Pracownik? selectedEmployee = lstDane.SelectedItem as Pracownik;
+                        if (selectedEmployee is not null)
+                        {
+                            restauracja.UsunPracownika(selectedEmployee.Pesel);
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
+                        break;
+                    case "klienci":
+                        Klient? selectedClient = lstDane.SelectedItem as Klient;
+                        if (selectedClient is not null)
+                        {
+                            restauracja.UsunKlienta(selectedClient.Email);
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
+                        break;
+                    case "dania":
+                        break;
+                    case "konta":
+                        break;
+                }
+            }
         }
 
-        private void deletePressed(object sender, RoutedEventArgs e)
+        private void ZamowieniaPressed(object sender, RoutedEventArgs e)
         {
-
+            OknoKelner okno = new OknoKelner(restauracja, EnumUprawienia.admin);
+            okno.Show();
+            this.Close();
         }
     }
 }
