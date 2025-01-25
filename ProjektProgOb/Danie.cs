@@ -11,16 +11,16 @@ namespace Restaurant
     [KnownType(typeof(Danie))]
     public class Danie
     {
-        [DataMember]
+        [DataMember(Order = 2)]
         private string nazwa;
-        [DataMember]
+        [DataMember(Order = 1)]
         private string kategoria;
-        [DataMember]
-        private decimal cena;
+        [DataMember(Order = 3)]
+        private double cena;
 
         public string Nazwa { get => nazwa; set => nazwa = value; }
         public string Kategoria { get => kategoria; set => kategoria = value; }
-        public decimal Cena { get => cena; set => cena = value; }
+        public double Cena { get => cena; set => cena = value; }
 
 
         public Danie()
@@ -29,7 +29,7 @@ namespace Restaurant
             Kategoria = string.Empty;
             Cena = 0;
         }
-        public Danie(string nazwa, string kategoria, decimal cena)
+        public Danie(string nazwa, string kategoria, double cena)
         {
             this.Nazwa = nazwa;
             this.Kategoria = kategoria;

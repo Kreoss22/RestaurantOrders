@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,30 +23,7 @@ namespace RestaurantGUI
         public MainWindow()
         {
             InitializeComponent();
-            List<string> kategorie = new List<string>
-            {
-                "Przystawki",
-                "Zupy",
-                "Pizza",
-                "Makarony",
-                "Dania g³ówne",
-                "Napoje zimne",
-                "Napoje gor¹ce",
-                "Piwo",
-                "Wino"
-            };
-            restauracja = new Restauracja("pizz.pl", "Pizzastic", kategorie);
-            Pracownik admin = new Pracownik("admin", false, "11111111111", "Pawe³", "Modzelewski", "pmodzelewski@student.agh.edu.pl", "999999999");
-            Konto adminKonto = new Konto(admin, "admin123", EnumUprawienia.admin, $"admin@{restauracja.Domena}"); //admin@pizz.pl
-            restauracja.DodajPracownika(admin);
-            restauracja.DodajKonto(adminKonto);
-            Pracownik kelner = new Pracownik("kelner", false, "01010101012", "Ala", "Kot", "alaKot@gmail.com", "101010101");
-            Konto kelnerKonto = new Konto(kelner, "kelner123", EnumUprawienia.pracownik, $"alaKot@{restauracja.Domena}");
-            restauracja.DodajPracownika(kelner);
-            restauracja.DodajKonto(kelnerKonto);
-            Konto klientKonto = new Konto(new Klient("Jan", "Nowak", "jnowak@interia.pl", "121212121"), "klient123");
-            restauracja.DodajKonto(klientKonto);
-            restauracja.ZapiszXML("restauracja.xml");
+            restauracja = Restauracja.OdczytajXml("restauracja.xml");
             RestaurantName.Content = $"Restauracja \"{restauracja.Nazwa}\"";
         }
 
@@ -69,6 +47,9 @@ namespace RestaurantGUI
                         this.Close();
                         break;
                     case EnumUprawienia.klient:
+                        DodajZamowienie dodawanieZamowienia = new DodajZamowienie(restauracja, konto.Uprawienia, konto.Login);
+                        dodawanieZamowienia.Show();
+                        this.Close();
                         break;
                     default:
                         break;
@@ -82,7 +63,13 @@ namespace RestaurantGUI
 
         private void RegisterBtnCLick(object sender, RoutedEventArgs e)
         {
-
+            Konto kontoKlienta = new Konto(EnumUprawienia.klient, new Klient());
+            DodajKlienta oknoKlienta = new DodajKlienta(kontoKlienta);
+            bool? result = oknoKlienta.ShowDialog();
+            if (result == true)
+            {
+                this.restauracja.DodajKonto(kontoKlienta);
+            }
         }
     }
 }
