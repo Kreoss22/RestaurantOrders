@@ -48,6 +48,10 @@ namespace RestaurantGUI
             }
         }
 
+        public void ZapisClicked(object sender, RoutedEventArgs e)
+        {
+            restauracja.ZapiszXML("restauracja.xml");
+        }
 
         private void AddButtonClicked(object sender, RoutedEventArgs e)
         {

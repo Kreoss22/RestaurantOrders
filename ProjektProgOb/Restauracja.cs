@@ -22,7 +22,7 @@ namespace Restaurant
         void UsunPracownika(string pesel);
         void UsunKonto(string email);
         void UsunDanie(string nazwa);
-        void EdytujKonto(string email, Konto noweKonto);
+        void EdytujKonto(string login, Konto noweKonto);
         void EdytujPracownika(string pesel, Pracownik nowyPracownik);
         void EdytujDanie(string nazwa, Danie danie);
     }
