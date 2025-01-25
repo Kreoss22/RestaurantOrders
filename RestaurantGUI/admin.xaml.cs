@@ -58,6 +58,18 @@ namespace RestaurantGUI
             }
         }
 
+        private void ZapisPressed(object sender, RoutedEventArgs e)
+        {
+            restauracja.ZapiszXML("restauracja.xml");
+        }
+
+        private void WylogujPressed(object sender, RoutedEventArgs e)
+        {
+            MainWindow okno = new MainWindow();
+            okno.Show();
+            this.Close();
+        }
+
         private void ZmianaTabeli(object sender, RoutedEventArgs e)
         {
             Button? pressedButton = sender as Button;
@@ -131,6 +143,7 @@ namespace RestaurantGUI
                     if(result == true)
                     {
                         this.restauracja.DodajKonto(kontoPracownika);
+                        restauracja.SortujKonta();
                         lstDane.ItemsSource = new ObservableCollection<Konto>(this.restauracja.Konta);
                     }
                     break;
@@ -160,13 +173,26 @@ namespace RestaurantGUI
                         Klient? selectedClient = lstDane.SelectedItem as Klient;
                         if (selectedClient is not null)
                         {
-                            restauracja.UsunKlienta(selectedClient.Email);
+                            restauracja.UsunKonto(selectedClient.Email);
                         }
-                        lstDane.ItemsSource = new ObservableCollection<Pracownik>(restauracja.Pracownicy);
+                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
                         break;
                     case "dania":
+                        Danie? selectedMeal = lstDane.SelectedItem as Danie;
+                        if (selectedMeal is not null)
+                        {
+                            restauracja.UsunDanie(selectedMeal.Nazwa);
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);
                         break;
                     case "konta":
+                        Konto? selectedAccount = lstDane.SelectedItem as Konto;
+                        if (selectedAccount is not null)
+                        {
+                            restauracja.UsunKonto(selectedAccount.Login);
+                            restauracja.SortujKonta();
+                        }
+                        lstDane.ItemsSource = new ObservableCollection<Konto>(restauracja.Konta);
                         break;
                 }
             }

@@ -27,6 +27,9 @@ namespace RestaurantGUI
             InitializeComponent();
             this.konto = konto;
             this.pracownicy = pracownicy;
+            txtHaslo.Text = konto.Haslo;
+            txtLogin.Text = konto.Login;
+            txtWlasciciel.Text = konto.Wlasciciel.Email;
         }
 
         public void DodajBtnClicked(object sender, RoutedEventArgs e)

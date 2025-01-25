@@ -26,30 +26,33 @@ namespace RestaurantGUI
         {
             InitializeComponent();
             this.danie = danie;
+            txtCena.Text = danie.Cena.ToString();
+            txtNazwa.Text = danie.Nazwa;
+            cmbKategoria.SelectedIndex = -1;
         }
 
         public void DodajBtnClicked(object sender, RoutedEventArgs e)
         {
-            if (txtCena.Text != "" || txtNazwa.Text != "")
+            if (txtCena.Text != "" || txtNazwa.Text != "" || cmbKategoria.SelectedIndex != -1)
             {
                 danie.Nazwa = txtNazwa.Text;
-                if (decimal.TryParse(txtCena.Text, out decimal value))
+                if (double.TryParse(txtCena.Text, out double value))
                 {
                     danie.Cena = value;
+                    if (cmbKategoria.SelectedItem is ComboBoxItem selectedItem)
+                    {
+                        danie.Kategoria = selectedItem.Content.ToString();
+                        DialogResult = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Błędna kategoria");
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Cena nie jest liczbą");
                 }
-                if (cmbKategoria.SelectedItem is ComboBoxItem selectedItem)
-                {
-                    danie.Kategoria = selectedItem.Content.ToString(); ;
-                }
-                else
-                {
-                    MessageBox.Show("Błędna kategoria");
-                }
-                DialogResult = true;
             }
             else
             {
@@ -66,7 +69,7 @@ namespace RestaurantGUI
         //sprawdza czy w textboxie jest liczba
         private void OnlyNumber(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !decimal.TryParse(e.Text, out _);
+            e.Handled = !double.TryParse(e.Text, out _);
         }
     }
 }

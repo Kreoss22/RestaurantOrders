@@ -20,7 +20,8 @@ namespace Restaurant
         void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia);
         List<Klient> PobierzListeKlientow();
         void UsunPracownika(string pesel);
-        void UsunKlienta(string email);
+        void UsunKonto(string email);
+        void UsunDanie(string nazwa);
         void EdytujKlienta(string email, Klient nowyKlient);
         void EdytujPracownika(string pesel, Pracownik nowyPracownik);
     }
@@ -99,6 +100,9 @@ namespace Restaurant
             {
                 throw new ArgumentException("Danie o podanej nazwie jest już zarejestrowane!");
             }
+            
+            dania.Add(danie);
+            
         }
 
         public void DodajZamowienieKlienta(Zamowienie zamowienie, string login)
@@ -141,7 +145,7 @@ namespace Restaurant
         // Usuwanie pracownika po peselu
         public void UsunPracownika(string pesel)
         {
-            var pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
+            Pracownik pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
             if (pracownikDoUsuniecia == null)
             {
                 throw new ArgumentException("Dany pracownik nie istnieje");
@@ -150,17 +154,27 @@ namespace Restaurant
             pracownicy.Remove(pracownikDoUsuniecia);
 
             // Usunięcie powiązanego konta
-            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Pracownik && ((Pracownik)k.Wlasciciel).Pesel == pesel);
+            Konto kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Pracownik && ((Pracownik)k.Wlasciciel).Pesel == pesel);
             if (kontoDoUsuniecia != null)
             {
                 konta.Remove(kontoDoUsuniecia);
             }
         }
 
-        // Usuwanie klienta po emailu
-        public void UsunKlienta(string login)
+        public void UsunDanie(string nazwa)
         {
-            var kontoDoUsuniecia = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == login);
+            Danie danieDoUsuniecia = dania.FirstOrDefault(d => d.Nazwa == nazwa);
+            if (danieDoUsuniecia == null)
+            {
+                throw new ArgumentException("Dane danie nie istnieje");
+            }
+
+            dania.Remove(danieDoUsuniecia);
+        }
+        
+        public void UsunKonto(string login)
+        {
+            Konto kontoDoUsuniecia = konta.FirstOrDefault(k => k.Login == login);
             if (kontoDoUsuniecia == null)
             {
                 throw new ArgumentException("Dany klient nie istnieje");
