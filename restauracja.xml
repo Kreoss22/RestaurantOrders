@@ -1,0 +1,200 @@
+<Restauracja xmlns:i="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://schemas.datacontract.org/2004/07/Restaurant">
+    <domena>pizz.pl</domena>
+    <nazwa>Pizzastic</nazwa>
+    <pracownicy>
+        <Pracownik>
+            <email>pmodzelewski@student.agh.edu.pl</email>
+            <imie>Paweł</imie>
+            <nazwisko>Modzelewski</nazwisko>
+            <nrTel>999999999</nrTel>
+            <czyKucharz>false</czyKucharz>
+            <pesel>11111111111</pesel>
+            <pozycja>admin</pozycja>
+        </Pracownik>
+        <Pracownik>
+            <email>alaKot@gmail.com</email>
+            <imie>Ala</imie>
+            <nazwisko>Kot</nazwisko>
+            <nrTel>101010101</nrTel>
+            <czyKucharz>false</czyKucharz>
+            <pesel>01010101012</pesel>
+            <pozycja>kelner</pozycja>
+        </Pracownik>
+    </pracownicy>
+    <konta>
+        <Konto>
+            <haslo>admin123</haslo>
+            <login>admin@pizz.pl</login>
+            <uprawienia>admin</uprawienia>
+            <wlasciciel i:type="Pracownik">
+                <email>pmodzelewski@student.agh.edu.pl</email>
+                <imie>Paweł</imie>
+                <nazwisko>Modzelewski</nazwisko>
+                <nrTel>999999999</nrTel>
+                <czyKucharz>false</czyKucharz>
+                <pesel>11111111111</pesel>
+                <pozycja>admin</pozycja>
+            </wlasciciel>
+        </Konto>
+        <Konto>
+            <haslo>kelner123</haslo>
+            <login>alaKot@pizz.pl</login>
+            <uprawienia>pracownik</uprawienia>
+            <wlasciciel i:type="Pracownik">
+                <email>alaKot@gmail.com</email>
+                <imie>Ala</imie>
+                <nazwisko>Kot</nazwisko>
+                <nrTel>101010101</nrTel>
+                <czyKucharz>false</czyKucharz>
+                <pesel>01010101012</pesel>
+                <pozycja>kelner</pozycja>
+            </wlasciciel>
+        </Konto>
+        <Konto>
+            <haslo>klient123</haslo>
+            <login>jnowak@interia.pl</login>
+            <uprawienia>klient</uprawienia>
+            <wlasciciel i:type="Klient">
+                <email>jnowak@interia.pl</email>
+                <imie>Jan</imie>
+                <nazwisko>Nowak</nazwisko>
+                <nrTel>121212121</nrTel>
+                <listaZamowien />
+            </wlasciciel>
+        </Konto>
+        <Konto>
+            <haslo>klient456</haslo>
+            <login>jkowalski@gmail.com</login>
+            <uprawienia>klient</uprawienia>
+            <wlasciciel i:type="Klient">
+                <email>jkowalski@gmail.com</email>
+                <imie>Jan</imie>
+                <nazwisko>Kowalski</nazwisko>
+                <nrTel>789456123</nrTel>
+                <listaZamowien />
+            </wlasciciel>
+        </Konto>
+        <Konto>
+            <haslo>klient789</haslo>
+            <login>akowal@gmail.com</login>
+            <uprawienia>klient</uprawienia>
+            <wlasciciel i:type="Klient">
+                <email>akowal@gmail.com</email>
+                <imie>Anna</imie>
+                <nazwisko>Kowal</nazwisko>
+                <nrTel>321654987</nrTel>
+                <listaZamowien />
+            </wlasciciel>
+        </Konto>
+    </konta>
+    <zamowienia />
+    <dania>
+        <Danie>
+            <kategoria>Przystawki</kategoria>
+            <nazwa>Pieczywo czosnkowe 6szt</nazwa>
+            <cena>12.5</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Przystawki</kategoria>
+            <nazwa>Pieczywo czosnkowe 12szt</nazwa>
+            <cena>25</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Przystawki</kategoria>
+            <nazwa>Sałatka grecka</nazwa>
+            <cena>15</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Zupy</kategoria>
+            <nazwa>Rosół</nazwa>
+            <cena>10.5</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Zupy</kategoria>
+            <nazwa>Zupa pomidorowa</nazwa>
+            <cena>15.5</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Pizza</kategoria>
+            <nazwa>Margherita</nazwa>
+            <cena>37.12</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Pizza</kategoria>
+            <nazwa>Pepperoni</nazwa>
+            <cena>25.8</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Makarony</kategoria>
+            <nazwa>Spaghetti Bolognese</nazwa>
+            <cena>40.08</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Makarony</kategoria>
+            <nazwa>Penne Carbonara</nazwa>
+            <cena>34.48</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Dania główne</kategoria>
+            <nazwa>Kotlet schabowy</nazwa>
+            <cena>5.62</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Dania główne</kategoria>
+            <nazwa>Filet z kurczaka</nazwa>
+            <cena>36.13</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Napoje zimne</kategoria>
+            <nazwa>Coca-Cola</nazwa>
+            <cena>27.25</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Napoje zimne</kategoria>
+            <nazwa>Sok pomarańczowy</nazwa>
+            <cena>8.83</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Napoje gorące</kategoria>
+            <nazwa>Kawa</nazwa>
+            <cena>38.55</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Napoje gorące</kategoria>
+            <nazwa>Herbata</nazwa>
+            <cena>29.27</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Piwo</kategoria>
+            <nazwa>Lager</nazwa>
+            <cena>45.64</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Piwo</kategoria>
+            <nazwa>Ale</nazwa>
+            <cena>48.14</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Wino</kategoria>
+            <nazwa>Wino czerwone</nazwa>
+            <cena>11.06</cena>
+        </Danie>
+        <Danie>
+            <kategoria>Wino</kategoria>
+            <nazwa>Wino białe</nazwa>
+            <cena>11.69</cena>
+        </Danie>
+    </dania>
+    <kategorieDan xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+        <d2p1:string>Przystawki</d2p1:string>
+        <d2p1:string>Zupy</d2p1:string>
+        <d2p1:string>Pizza</d2p1:string>
+        <d2p1:string>Makarony</d2p1:string>
+        <d2p1:string>Dania główne</d2p1:string>
+        <d2p1:string>Napoje zimne</d2p1:string>
+        <d2p1:string>Napoje gorące</d2p1:string>
+        <d2p1:string>Piwo</d2p1:string>
+        <d2p1:string>Wino</d2p1:string>
+    </kategorieDan>
+</Restauracja>
