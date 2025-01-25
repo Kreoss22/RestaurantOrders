@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace Restaurant
 {
+    /// <summary>
+    /// Określa poziomy uprawnień użytkowników w systemie.
+    /// </summary>
     public enum EnumUprawienia
     {
         admin = 0,
         pracownik = 1,
         klient = 2
     }
+
+    /// <summary>
+    /// Klasa reprezentująca konto użytkownika w systemie restauracji.
+    /// </summary>
     [DataContract]
     public class Konto : IComparable<Konto>, IEquatable<Konto>
     {
@@ -26,7 +33,7 @@ namespace Restaurant
         [DataMember]
         EnumUprawienia uprawienia;
 
-        public string Login {  get { return login; } set { login = value; } }
+        public string Login { get { return login; } set { login = value; } }
         public string Haslo { get => haslo; set => haslo = value; }
         public EnumUprawienia Uprawienia { get => uprawienia; set => uprawienia = value; }
         public Osoba Wlasciciel { get => wlasciciel; set => wlasciciel = value; }
@@ -38,6 +45,7 @@ namespace Restaurant
             this.Uprawienia = uprawienia;
             this.Wlasciciel = wlasciciel;
         }
+
 
         public Konto(Klient klient, string haslo)
         {
@@ -74,6 +82,12 @@ namespace Restaurant
             return $"{uprawnieniaString} {Login} {wlasciciel.Imie} {wlasciciel.Nazwisko}";
         }
 
+        /// <summary>
+        /// Porównuje bieżące konto z innym na podstawie uprawnień, nazwiska i imienia właściciela.
+        /// </summary>
+        /// <param name="other">Konto do porównania.</param>
+        /// <returns>Wartość liczbowa określająca porządek sortowania.</returns>
+
         public int CompareTo(Konto other)
         {
             if (other == null)
@@ -91,6 +105,11 @@ namespace Restaurant
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Sprawdza, czy podane konto jest równe bieżącemu na podstawie loginu.
+        /// </summary>
+        /// <param name="other">Konto do porównania.</param>
+        /// <returns>Prawda, jeśli konta są równe; w przeciwnym razie fałsz.</returns>
         public bool Equals(Konto other)
         {
             if (other is null) return false;

@@ -10,6 +10,9 @@ using System.Xml;
 
 namespace Restaurant
 {
+    /// <summary>
+    /// Interfejs definiujący operacje na restauracji.
+    /// </summary>
     interface IRestauracja
     {
         void DodajKonto(Konto noweKonto);
@@ -28,32 +31,44 @@ namespace Restaurant
     }
 
     [DataContract]
+
+    /// <summary>
+    /// Klasa reprezentująca restaurację.
+    /// </summary>
     public class Restauracja : IRestauracja
     {
-        [DataMember (Order =1)]
+        [DataMember(Order = 1)]
         private string domena;
-        [DataMember(Order =2)]
+        [DataMember(Order = 2)]
         private string nazwa;
-        [DataMember(Order =5)]
+        [DataMember(Order = 5)]
         Dictionary<string, Zamowienie> zamowienia; // klucz - id zamowienia
-        [DataMember(Order =6)]
+        [DataMember(Order = 6)]
         List<Danie> dania;
-        [DataMember(Order= 4)]
+        [DataMember(Order = 4)]
         private List<Konto> konta;
-        [DataMember(Order =3)]
+        [DataMember(Order = 3)]
         private List<Pracownik> pracownicy;
-        [DataMember(Order =7)]
+        [DataMember(Order = 7)]
         private List<string> kategorieDan;
-        
 
         public List<string> KategorieDan { get => kategorieDan; set => kategorieDan = value; }
         public virtual List<Konto> Konta { get => konta; set => konta = value; }
         public virtual List<Pracownik> Pracownicy { get => pracownicy; set => pracownicy = value; }
         public virtual Dictionary<string, Zamowienie> Zamowienia { get => zamowienia; set => zamowienia = value; }
+
         public virtual List<Danie> Dania { get => dania; set => dania = value; }
+
         public string Nazwa { get => nazwa; set => nazwa = value; }
+
         public string Domena { get => domena; set => domena = value; }
 
+        /// <summary>
+        /// Inicjalizuje nową instancję klasy <see cref="Restauracja"/>.
+        /// </summary>
+        /// <param name="domena">Domena restauracji.</param>
+        /// <param name="nazwa">Nazwa restauracji.</param>
+        /// <param name="kategorieDan">Lista kategorii dań.</param>
         public Restauracja(string domena, string nazwa, List<string> kategorieDan)
         {
             this.Domena = domena;
@@ -65,7 +80,11 @@ namespace Restaurant
             this.KategorieDan = kategorieDan;
         }
 
-        // Dodanie konta klienta
+
+        /// <summary>
+        /// Dodaje nowe konto do restauracji.
+        /// </summary>
+        /// <param name="noweKonto">Nowe konto do dodania.</param>
         public void DodajKonto(Konto noweKonto)
         {
             // Sprawdzanie, czy konto z tym loginem (emailem) już istnieje
@@ -79,6 +98,10 @@ namespace Restaurant
         }
 
         //Dodawanie pracownika
+        /// <summary>
+        /// Dodaje pracownika do restauracji.
+        /// </summary>
+        /// <param name="pracownik">Pracownik do dodania.</param>
         public void DodajPracownika(Pracownik pracownik)
         {
             if (pracownicy.Any(k => k.Pesel == pracownik.Pesel))
@@ -93,19 +116,29 @@ namespace Restaurant
             pracownicy.Add(pracownik);
 
         }
-        // Dodanie konta pracownika
 
+        /// <summary>
+        /// Dodaje nowe danie do listy dań restauracji.
+        /// </summary>
+        /// <param name="danie">Danie do dodania.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy danie o tej nazwie już istnieje.</exception>
         public void DodajDanie(Danie danie)
         {
             if (Dania.Any(k => k.Nazwa == danie.Nazwa))
             {
                 throw new ArgumentException("Danie o podanej nazwie jest już zarejestrowane!");
             }
-            
+
             dania.Add(danie);
-            
+
         }
 
+        /// <summary>
+        /// Dodaje zamówienie klienta do listy zamówień.
+        /// </summary>
+        /// <param name="zamowienie">Zamówienie klienta.</param>
+        /// <param name="login">Login klienta.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy zamówienie o danym ID już istnieje.</exception>
         public void DodajZamowienieKlienta(Zamowienie zamowienie, string login)
         {
             if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
@@ -114,12 +147,17 @@ namespace Restaurant
             }
             zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
             Klient znalezionyKlient = (Klient)konta.FirstOrDefault(k => k.Login == login && k.Wlasciciel is Klient).Wlasciciel;
-            if(znalezionyKlient != null)
+            if (znalezionyKlient != null)
             {
-                znalezionyKlient.ListaZamowien.Add(zamowienie); 
+                znalezionyKlient.ListaZamowien.Add(zamowienie);
             }
         }
 
+        /// <summary>
+        /// Dodaje zamówienie lokalne do restauracji.
+        /// </summary>
+        /// <param name="zamowienie">Zamówienie do dodania.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy zamówienie o danym ID już istnieje.</exception>
         public void DodajZamowienieLokalne(Zamowienie zamowienie)
         {
             if (zamowienia.ContainsKey(zamowienie.IdZamowienia))
@@ -129,12 +167,21 @@ namespace Restaurant
             zamowienia.Add(zamowienie.IdZamowienia, zamowienie);
         }
 
+        /// <summary>
+        /// Zmienia status zamówienia na określony.
+        /// </summary>
+        /// <param name="idZamowienia">Identyfikator zamówienia.</param>
+        /// <param name="stanZamowienia">Nowy stan zamówienia.</param>
         public void ZmienStatusZamowienia(string idZamowienia, EnumStanZamowienia stanZamowienia)
         {
             zamowienia[idZamowienia].StanZamowienia = stanZamowienia;
         }
 
         // Metoda zwracająca listę klientów
+        /// <summary>
+        /// Pobiera listę klientów restauracji.
+        /// </summary>
+        /// <returns>Lista klientów.</returns>
         public virtual List<Klient> PobierzListeKlientow()
         {
             return konta
@@ -142,8 +189,13 @@ namespace Restaurant
                 .Select(k => (Klient)k.Wlasciciel) // Rzutujemy Wlasciciel na Klient
                 .ToList();
         }
-      
+
         // Usuwanie pracownika po peselu
+        /// <summary>
+        /// Usuwa pracownika na podstawie numeru PESEL.
+        /// </summary>
+        /// <param name="pesel">Numer PESEL pracownika.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy pracownik nie istnieje.</exception>
         public void UsunPracownika(string pesel)
         {
             Pracownik pracownikDoUsuniecia = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
@@ -162,6 +214,11 @@ namespace Restaurant
             }
         }
 
+        /// <summary>
+        /// Usuwa danie na podstawie nazwy.
+        /// </summary>
+        /// <param name="nazwa">Nazwa dania do usunięcia.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy danie nie istnieje.</exception>
         public void UsunDanie(string nazwa)
         {
             Danie danieDoUsuniecia = dania.FirstOrDefault(d => d.Nazwa == nazwa);
@@ -172,7 +229,12 @@ namespace Restaurant
 
             dania.Remove(danieDoUsuniecia);
         }
-        
+
+        /// <summary>
+        /// Usuwa konto na podstawie loginu.
+        /// </summary>
+        /// <param name="login">Login konta.</param>
+        /// <exception cref="ArgumentException">Rzucane, gdy konto nie istnieje.</exception>
         public void UsunKonto(string login)
         {
             Konto kontoDoUsuniecia = konta.FirstOrDefault(k => k.Login == login);
@@ -185,6 +247,11 @@ namespace Restaurant
         }
 
         // Edytowanie pracownika po peselu
+        /// <summary>
+        /// Edytuje dane pracownika na podstawie numeru PESEL.
+        /// </summary>
+        /// <param name="pesel">Numer PESEL pracownika.</param>
+        /// <param name="nowyPracownik">Nowe dane pracownika.</param>
         public void EdytujPracownika(string pesel, Pracownik nowyPracownik)
         {
             var pracownikDoEdycji = pracownicy.FirstOrDefault(p => p.Pesel == pesel);
@@ -205,7 +272,7 @@ namespace Restaurant
             }
         }
 
-        // Edytowanie klienta po emailu
+
         public void EdytujKonto(string email, Konto noweKonto)
         {
             var kontoDoEdycji = konta.FirstOrDefault(k => k.Login == email);
@@ -217,6 +284,7 @@ namespace Restaurant
             konta.Remove(kontoDoEdycji);
             konta.Add(noweKonto);
         }
+
 
         public void EdytujDanie(string nazwa, Danie noweDanie)
         {
@@ -230,15 +298,24 @@ namespace Restaurant
             dania.Add(noweDanie);
         }
 
+        /// <summary>
+        /// Sortuje konta użytkowników.
+        /// </summary>
         public void SortujKonta()
         {
             Konta.Sort();
         }
+
+        /// <summary>
+        /// Zapisuje dane restauracji do pliku XML.
+        /// </summary>
+        /// <param name="nazwa">Nazwa pliku.</param>
+        /// <returns>Zwraca true, jeśli zapis zakończył się sukcesem.</returns>
         public bool ZapiszXML(string nazwa)
         {
             if (konta == null || konta.Count == 0) // Sprawdzamy czy restauracja zawiera dane
             {
-                Console.WriteLine("Brak danych"); 
+                Console.WriteLine("Brak danych");
                 return false;
             }
 
@@ -256,8 +333,14 @@ namespace Restaurant
                 Console.WriteLine($"Blad serializacji {ex.Message}"); //komunikat bledu serializacji
                 return false;
             }
-        
+
         }
+
+        /// <summary>
+        /// Odczytuje dane restauracji z pliku XML.
+        /// </summary>
+        /// <param name="nazwa">Nazwa pliku XML.</param>
+        /// <returns>Zwraca obiekt restauracji.</returns>
         public static Restauracja OdczytajXml(string nazwa)
         {
             if (!File.Exists(nazwa)) { return null; }

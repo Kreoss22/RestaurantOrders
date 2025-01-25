@@ -10,6 +10,9 @@ using System.Xml.Serialization;
 
 namespace Restaurant
 {
+    /// <summary>
+    /// Klasa bazowa reprezentująca osobę.
+    /// </summary>
     [DataContract]
     public abstract class Osoba
     {
@@ -22,6 +25,10 @@ namespace Restaurant
         [DataMember]
         private string? nrTel;
 
+        /// <summary>
+        /// Pobiera lub ustawia adres e-mail osoby.
+        /// </summary>
+        /// <exception cref="ArgumentException">Rzucane, gdy adres e-mail nie jest w poprawnym formacie.</exception>
         public string Email
         {
             get => email; set
@@ -34,6 +41,10 @@ namespace Restaurant
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia numer telefonu osoby.
+        /// </summary>
+        /// <exception cref="ArgumentException">Rzucane, gdy numer telefonu nie jest w poprawnym formacie.</exception>
         public string NrTel
         {
             get => nrTel; set
@@ -45,15 +56,19 @@ namespace Restaurant
                 nrTel = value;
             }
         }
+
+
         public string Imie { get => imie; set => imie = value; }
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
 
+        
         public Osoba()
         {
             Imie = string.Empty;
             Nazwisko = string.Empty;
         }
 
+        
         public Osoba(string imie, string nazwisko, string email, string nrTel)
         {
             Imie = imie;
