@@ -22,8 +22,9 @@ namespace Restaurant
         void UsunPracownika(string pesel);
         void UsunKonto(string email);
         void UsunDanie(string nazwa);
-        void EdytujKlienta(string email, Klient nowyKlient);
+        void EdytujKonto(string email, Konto noweKonto);
         void EdytujPracownika(string pesel, Pracownik nowyPracownik);
+        void EdytujDanie(string nazwa, Danie danie);
     }
 
     [DataContract]
@@ -202,23 +203,31 @@ namespace Restaurant
                 konta.Remove(kontoDoEdycji);
                 konta.Add(new Konto(nowyPracownik, kontoDoEdycji.Haslo, kontoDoEdycji.Uprawienia, kontoDoEdycji.Login));
             }
-
-            Console.WriteLine($"Pracownik o peselu {pesel} został zaktualizowany.");
         }
 
         // Edytowanie klienta po emailu
-        public void EdytujKlienta(string email, Klient nowyKlient)
+        public void EdytujKonto(string email, Konto noweKonto)
         {
-            var kontoDoEdycji = konta.FirstOrDefault(k => k.Wlasciciel is Klient && k.Login == email);
+            var kontoDoEdycji = konta.FirstOrDefault(k => k.Login == email);
             if (kontoDoEdycji == null)
             {
                 throw new ArgumentException("Klient o podanym emailu nie istnieje.");
             }
 
             konta.Remove(kontoDoEdycji);
-            konta.Add(new Konto(nowyKlient, kontoDoEdycji.Haslo));
+            konta.Add(noweKonto);
+        }
 
-            Console.WriteLine($"Klient o emailu {email} został zaktualizowany.");
+        public void EdytujDanie(string nazwa, Danie noweDanie)
+        {
+            var danieDoEdycji = dania.FirstOrDefault(k => k.Nazwa == nazwa);
+            if (danieDoEdycji == null)
+            {
+                throw new ArgumentException("Danie o podanej nazwie nie istnieje.");
+            }
+
+            dania.Remove(danieDoEdycji);
+            dania.Add(noweDanie);
         }
 
         public void SortujKonta()
