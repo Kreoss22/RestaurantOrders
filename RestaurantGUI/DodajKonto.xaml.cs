@@ -32,10 +32,27 @@ namespace RestaurantGUI
             txtWlasciciel.Text = konto.Wlasciciel.Email;
         }
 
+        public DodajKonto(Konto konto)
+        {
+            InitializeComponent();
+            this.konto = konto;
+            this.pracownicy = new List<Pracownik>();
+            txtHaslo.Text = konto.Haslo;
+            txtLogin.Text = konto.Login;
+            txtWlasciciel.Text = konto.Wlasciciel.Email;
+            txtWlasciciel.IsReadOnly = true;
+        }
+
         public void DodajBtnClicked(object sender, RoutedEventArgs e)
         {
             if (txtLogin.Text != "" || txtHaslo.Text != "" || txtWlasciciel.Text != "")
             {
+                if(pracownicy.Count == 0)
+                {
+                    konto.Haslo = txtHaslo.Text;
+                    konto.Login = txtLogin.Text;
+                    DialogResult = true;
+                }
                 var pracownik = pracownicy.FirstOrDefault(p => p.Email == txtWlasciciel.Text);
                 if (pracownik == null)
                 {

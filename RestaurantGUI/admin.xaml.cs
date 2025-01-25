@@ -133,7 +133,7 @@ namespace RestaurantGUI
                     if (result == true)
                     {
                         this.restauracja.DodajDanie(danie);
-                        lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                        lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);
                     }
                     break;
                 case "konta":
@@ -152,7 +152,67 @@ namespace RestaurantGUI
 
         private void EditPressed(object sender, RoutedEventArgs e)
         {
-
+            bool? result;
+            switch (this.obecnaTabela)
+            {
+                case "pracownicy":
+                    Pracownik? pracownik = lstDane.SelectedItem as Pracownik;
+                    if(pracownik != null)
+                    {
+                        string peselPracownika = pracownik.Pesel;
+                        DodajPracownika oknoPracownika = new DodajPracownika(pracownik);
+                        result = oknoPracownika.ShowDialog(); if
+                        (result == true)
+                        {
+                            this.restauracja.EdytujPracownika(peselPracownika, pracownik);
+                            lstDane.ItemsSource = new ObservableCollection<Pracownik>(this.restauracja.Pracownicy);
+                        }
+                    }
+                    break;
+                case "klienci":
+                    Konto? kontoKlienta = lstDane.SelectedItem as Konto;
+                    if(kontoKlienta != null)
+                    {
+                        string loginKlienta = kontoKlienta.Login;
+                        DodajKlienta oknoKlienta = new DodajKlienta(kontoKlienta);
+                        result = oknoKlienta.ShowDialog();
+                        if (result == true)
+                        {
+                            this.restauracja.EdytujKonto(loginKlienta,kontoKlienta);
+                            lstDane.ItemsSource = new ObservableCollection<Klient>(this.restauracja.PobierzListeKlientow());
+                        }
+                    }
+                    break;
+                case "dania":
+                    Danie? danie = lstDane.SelectedItem as Danie;
+                    if (danie != null)
+                    {
+                        string nazwaDania = danie.Nazwa;
+                        DodajDanie oknoDanie = new DodajDanie(danie);
+                        result = oknoDanie.ShowDialog();
+                        if (result == true)
+                        {
+                            this.restauracja.EdytujDanie(nazwaDania, danie);
+                            lstDane.ItemsSource = new ObservableCollection<Danie>(restauracja.Dania);
+                        }
+                    }
+                    break;
+                case "konta":
+                    Konto? kontoDoEdycji = lstDane.SelectedItem as Konto;
+                    if(kontoDoEdycji != null)
+                    {
+                        string loginKonta = kontoDoEdycji.Login;
+                        DodajKonto oknoKonta = new DodajKonto(kontoDoEdycji);
+                        result = oknoKonta.ShowDialog();
+                        if (result == true)
+                        {
+                            this.restauracja.EdytujKonto(loginKonta, kontoDoEdycji);
+                            restauracja.SortujKonta();
+                            lstDane.ItemsSource = new ObservableCollection<Konto>(this.restauracja.Konta);
+                        }
+                    }
+                    break;
+            }
         }
 
         private void DeletePressed(object sender, RoutedEventArgs e)

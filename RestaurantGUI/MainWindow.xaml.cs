@@ -24,6 +24,7 @@ namespace RestaurantGUI
         {
             InitializeComponent();
             restauracja = Restauracja.OdczytajXml("restauracja.xml");
+            restauracja.SortujKonta();
             RestaurantName.Content = $"Restauracja \"{restauracja.Nazwa}\"";
         }
 
