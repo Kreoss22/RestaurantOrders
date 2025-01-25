@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProjektProgOb</name>
+    </assembly>
+    <members>
+        <member name="T:Restaurant.Osoba">
+            <summary>
+            Klasa bazowa reprezentująca osobę.
+            </summary>
+        </member>
+        <member name="P:Restaurant.Osoba.Email">
+            <summary>
+            Pobiera lub ustawia adres e-mail osoby.
+            </summary>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy adres e-mail nie jest w poprawnym formacie.</exception>
+        </member>
+        <member name="P:Restaurant.Osoba.NrTel">
+            <summary>
+            Pobiera lub ustawia numer telefonu osoby.
+            </summary>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy numer telefonu nie jest w poprawnym formacie.</exception>
+        </member>
+        <member name="T:Restaurant.Pracownik">
+            <summary>
+            Klasa reprezentująca pracownika restauracji, dziedzicząca po klasie Osoba.
+            </summary>
+        </member>
+        <member name="P:Restaurant.Pracownik.Pesel">
+            <summary>
+            Pobiera lub ustawia numer PESEL pracownika.
+            </summary>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy PESEL nie ma 11 znaków.</exception>
+        </member>
+        <member name="T:Restaurant.IRestauracja">
+            <summary>
+            Interfejs definiujący operacje na restauracji.
+            </summary>
+        </member>
+        <member name="M:Restaurant.Restauracja.#ctor(System.String,System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Inicjalizuje nową instancję klasy <see cref="T:Restaurant.Restauracja"/>.
+            </summary>
+            <param name="domena">Domena restauracji.</param>
+            <param name="nazwa">Nazwa restauracji.</param>
+            <param name="kategorieDan">Lista kategorii dań.</param>
+        </member>
+        <member name="M:Restaurant.Restauracja.DodajKonto(Restaurant.Konto)">
+            <summary>
+            Dodaje nowe konto do restauracji.
+            </summary>
+            <param name="noweKonto">Nowe konto do dodania.</param>
+        </member>
+        <member name="M:Restaurant.Restauracja.DodajPracownika(Restaurant.Pracownik)">
+            <summary>
+            Dodaje pracownika do restauracji.
+            </summary>
+            <param name="pracownik">Pracownik do dodania.</param>
+        </member>
+        <member name="M:Restaurant.Restauracja.DodajDanie(Restaurant.Danie)">
+            <summary>
+            Dodaje nowe danie do listy dań restauracji.
+            </summary>
+            <param name="danie">Danie do dodania.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy danie o tej nazwie już istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.DodajZamowienieKlienta(Restaurant.Zamowienie,System.String)">
+            <summary>
+            Dodaje zamówienie klienta do listy zamówień.
+            </summary>
+            <param name="zamowienie">Zamówienie klienta.</param>
+            <param name="login">Login klienta.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy zamówienie o danym ID już istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.DodajZamowienieLokalne(Restaurant.Zamowienie)">
+            <summary>
+            Dodaje zamówienie lokalne do restauracji.
+            </summary>
+            <param name="zamowienie">Zamówienie do dodania.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy zamówienie o danym ID już istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.ZmienStatusZamowienia(System.String,Restaurant.EnumStanZamowienia)">
+            <summary>
+            Zmienia status zamówienia na określony.
+            </summary>
+            <param name="idZamowienia">Identyfikator zamówienia.</param>
+            <param name="stanZamowienia">Nowy stan zamówienia.</param>
+        </member>
+        <member name="M:Restaurant.Restauracja.PobierzListeKlientow">
+            <summary>
+            Pobiera listę klientów restauracji.
+            </summary>
+            <returns>Lista klientów.</returns>
+        </member>
+        <member name="M:Restaurant.Restauracja.UsunPracownika(System.String)">
+            <summary>
+            Usuwa pracownika na podstawie numeru PESEL.
+            </summary>
+            <param name="pesel">Numer PESEL pracownika.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy pracownik nie istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.UsunDanie(System.String)">
+            <summary>
+            Usuwa danie na podstawie nazwy.
+            </summary>
+            <param name="nazwa">Nazwa dania do usunięcia.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy danie nie istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.UsunKonto(System.String)">
+            <summary>
+            Usuwa konto na podstawie loginu.
+            </summary>
+            <param name="login">Login konta.</param>
+            <exception cref="T:System.ArgumentException">Rzucane, gdy konto nie istnieje.</exception>
+        </member>
+        <member name="M:Restaurant.Restauracja.EdytujPracownika(System.String,Restaurant.Pracownik)">
+            <summary>
+            Edytuje dane pracownika na podstawie numeru PESEL.
+            </summary>
+            <param name="pesel">Numer PESEL pracownika.</param>
+            <param name="nowyPracownik">Nowe dane pracownika.</param>
+        </member>
+        <member name="M:Restaurant.Restauracja.SortujKonta">
+            <summary>
+            Sortuje konta użytkowników.
+            </summary>
+        </member>
+        <member name="M:Restaurant.Restauracja.ZapiszXML(System.String)">
+            <summary>
+            Zapisuje dane restauracji do pliku XML.
+            </summary>
+            <param name="nazwa">Nazwa pliku.</param>
+            <returns>Zwraca true, jeśli zapis zakończył się sukcesem.</returns>
+        </member>
+        <member name="M:Restaurant.Restauracja.OdczytajXml(System.String)">
+            <summary>
+            Odczytuje dane restauracji z pliku XML.
+            </summary>
+            <param name="nazwa">Nazwa pliku XML.</param>
+            <returns>Zwraca obiekt restauracji.</returns>
+        </member>
+        <member name="T:Restaurant.EnumStanZamowienia">
+            <summary>
+            Stan zamówienia.
+            </summary>
+        </member>
+        <member name="M:Restaurant.Zamowienie.#ctor(System.Collections.Generic.List{System.ValueTuple{Restaurant.Danie,System.Int32}},System.DateTime,System.Double)">
+            <summary>
+            Tworzy nowe zamówienie.
+            </summary>
+            <param name="zamowioneDania">Lista zamówionych dań.</param>
+            <param name="dataZamowienia">Data zamówienia.</param>
+            <param name="oplaty">Opłaty dodatkowe.</param>
+        </member>
+        <member name="M:Restaurant.Zamowienie.CenaZamowienia">
+            <summary>
+            Oblicza cenę zamówienia.
+            </summary>
+            <returns>Cena całkowita.</returns>
+        </member>
+        <member name="M:Restaurant.Zamowienie.ToString">
+            <summary>
+            Opis zamówienia w postaci tekstowej.
+            </summary>
+            <returns>Opis zamówienia.</returns>
+        </member>
+        <member name="T:Restaurant.EnumUprawienia">
+            <summary>
+            Określa poziomy uprawnień użytkowników w systemie.
+            </summary>
+        </member>
+        <member name="T:Restaurant.Konto">
+            <summary>
+            Klasa reprezentująca konto użytkownika w systemie restauracji.
+            </summary>
+        </member>
+        <member name="M:Restaurant.Konto.CompareTo(Restaurant.Konto)">
+            <summary>
+            Porównuje bieżące konto z innym na podstawie uprawnień, nazwiska i imienia właściciela.
+            </summary>
+            <param name="other">Konto do porównania.</param>
+            <returns>Wartość liczbowa określająca porządek sortowania.</returns>
+        </member>
+        <member name="M:Restaurant.Konto.Equals(Restaurant.Konto)">
+            <summary>
+            Sprawdza, czy podane konto jest równe bieżącemu na podstawie loginu.
+            </summary>
+            <param name="other">Konto do porównania.</param>
+            <returns>Prawda, jeśli konta są równe; w przeciwnym razie fałsz.</returns>
+        </member>
+    </members>
+</doc>
