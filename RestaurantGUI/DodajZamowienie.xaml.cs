@@ -1,8 +1,10 @@
 ﻿using Restaurant;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +76,7 @@ namespace RestaurantGUI
                 string obecnaKategoria = (string)pressedButton.Content;
                 List<Danie> daniaZKategorii = restauracja.Dania.Where(d => d.Kategoria == obecnaKategoria).ToList();
                 lstDania.ItemsSource = new ObservableCollection<Danie>(daniaZKategorii);
+                categoryLabel.Content = $"{obecnaKategoria}:";
             }
         }
 
@@ -119,7 +122,15 @@ namespace RestaurantGUI
                     Danie? dodaneDanie = lstDania.SelectedItem as Danie;
                     if (dodaneDanie != null)
                     {
-                        zamowioneDania.Add((dodaneDanie, ilosc));
+                        (Danie, int) danieWLiscie = zamowioneDania.FirstOrDefault(d => d.Item1.Equals(dodaneDanie));
+                        if (danieWLiscie.Item1 != null)
+                        {
+                            danieWLiscie.Item2 = ilosc;
+                        }
+                        else
+                        {
+                            zamowioneDania.Add((dodaneDanie, ilosc));
+                        }
                         lstDania.SelectedIndex = -1;
                         txtIlosc.Text = "0";
                     }
@@ -147,13 +158,30 @@ namespace RestaurantGUI
                                 klient.ListaZamowien.Add(noweZamowienie);
                             }
                         }
-                        TworzenieNowegoZamowienia();
                     }
+                    TworzenieNowegoZamowienia();
                 }
             }
             else
             {
                 MessageBox.Show("Dodaj dania do zamówienia!");
+            }
+        }
+
+
+        private void lstDania_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lstDania.SelectedItem != null)
+            {
+                if (lstDania.SelectedIndex != -1)
+                {
+                    Danie? wybraneDanie = lstDania.SelectedItem as Danie;
+                    (Danie,int) danieWLiscie = zamowioneDania.FirstOrDefault(d => d.Item1.Equals(wybraneDanie));
+                    if(danieWLiscie.Item1 != null)
+                    {
+                        txtIlosc.Text = danieWLiscie.Item2.ToString();
+                    }
+                }
             }
         }
     }

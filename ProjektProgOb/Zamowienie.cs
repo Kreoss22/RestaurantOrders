@@ -39,10 +39,7 @@ namespace Restaurant
         [DataMember]
         static int indeks;
 
-        
         public string IdZamowienia { get => idZamowienia; set => idZamowienia = value; }
-
-      
         public EnumStanZamowienia StanZamowienia { get => stanZamowienia; set => stanZamowienia = value; }
 
         static Zamowienie()

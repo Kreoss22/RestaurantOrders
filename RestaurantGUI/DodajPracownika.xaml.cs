@@ -45,6 +45,7 @@ namespace RestaurantGUI
                 pracownik.Nazwisko = txtNazwisko.Text;
                 pracownik.Email = txtEmail.Text;
                 pracownik.Pesel = txtPesel.Text;
+                pracownik.NrTel = txtNrTel.Text;
                 pracownik.Pozycja = txtPozycja.Text;
                 pracownik.CzyKucharz = chkCzyKucharz.IsChecked;
                 DialogResult = true;

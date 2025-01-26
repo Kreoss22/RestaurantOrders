@@ -29,22 +29,23 @@ namespace RestaurantGUI
             this.restauracja = restauracja;
             this.uprawienia = uprawienia;
             cmbStatus.ItemsSource = Enum.GetNames(typeof(EnumStanZamowienia));
-            lstZamowienia.ItemsSource = new ObservableCollection<KeyValuePair<string, Zamowienie>>(restauracja.Zamowienia);
+            lstZamowienia.ItemsSource = new ObservableCollection<Zamowienie>(restauracja.Zamowienia.Values);
         }
 
         private void ChangeButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (lstZamowienia.SelectedItem is KeyValuePair<string, Zamowienie> wybraneZamowienie)
+            if (lstZamowienia.SelectedItem is Zamowienie wybraneZamowienie)
             {
-                restauracja.ZmienStatusZamowienia(wybraneZamowienie.Key, (EnumStanZamowienia)cmbStatus.SelectedIndex);
+                restauracja.ZmienStatusZamowienia(wybraneZamowienie.IdZamowienia, (EnumStanZamowienia)cmbStatus.SelectedIndex);
             }
+            lstZamowienia.ItemsSource = new ObservableCollection<Zamowienie>(restauracja.Zamowienia.Values);
         }
 
         private void ZmienionoZamowienie(object sender, SelectionChangedEventArgs e)
         {
-            if (lstZamowienia.SelectedItem is KeyValuePair<string, Zamowienie> wybraneZamowienie)
+            if (lstZamowienia.SelectedItem is Zamowienie wybraneZamowienie)
             {
-                cmbStatus.SelectedIndex = (int)wybraneZamowienie.Value.StanZamowienia;
+                cmbStatus.SelectedIndex = (int)wybraneZamowienie.StanZamowienia;
             }
         }
 

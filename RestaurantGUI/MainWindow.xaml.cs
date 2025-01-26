@@ -71,6 +71,7 @@ namespace RestaurantGUI
             {
                 this.restauracja.DodajKonto(kontoKlienta);
             }
+            restauracja.ZapiszXML("restauracja.xml");
         }
     }
 }

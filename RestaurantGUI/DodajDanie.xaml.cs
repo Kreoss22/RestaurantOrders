@@ -28,7 +28,15 @@ namespace RestaurantGUI
             this.danie = danie;
             txtCena.Text = danie.Cena.ToString();
             txtNazwa.Text = danie.Nazwa;
-            cmbKategoria.SelectedIndex = -1;
+            if(danie.Kategoria == string.Empty)
+            {
+                cmbKategoria.SelectedIndex = -1;
+            }
+            else
+            {
+                cmbKategoria.SelectedIndex = ZnajdzIndeksComboBox(cmbKategoria, danie.Kategoria);
+            }
+
         }
 
         public void DodajBtnClicked(object sender, RoutedEventArgs e)
@@ -70,6 +78,21 @@ namespace RestaurantGUI
         private void OnlyNumber(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !double.TryParse(e.Text, out _);
+        }
+
+        private int ZnajdzIndeksComboBox(ComboBox comboBox, string wartosc)
+        {
+            ComboBoxItem znalezionyElement = null;
+
+            foreach (var item in comboBox.Items)
+            {
+                if (item is ComboBoxItem comboItem && comboItem.Content?.ToString() == wartosc)
+                {
+                    znalezionyElement = comboItem;
+                    break;
+                }
+            }
+            return znalezionyElement != null ? comboBox.Items.IndexOf(znalezionyElement) : -1;
         }
     }
 }

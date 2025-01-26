@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Panel Zamówień" Height="510" Width="800" Background="#2F4F4F">
     <Grid Margin="20">
-        <ListBox Name="lstZamowienia" Width="580" Height="400" HorizontalAlignment="Right" VerticalAlignment="Top" Background="White"/>
+        <ListBox Name="lstZamowienia" Width="580" Height="400" HorizontalAlignment="Right" VerticalAlignment="Top" Background="White" SelectionChanged="ZmienionoZamowienie"/>
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150">
             <ComboBox Name="cmbStatus" Width="150" Height="30" FontSize="15">
