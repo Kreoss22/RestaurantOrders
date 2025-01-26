@@ -1,7 +1,7 @@
 ﻿<Window x:Class="RestaurantGUI.DodajDanie"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodaj Danie" Height="300" Width="500" Background="#2F4F4F">
+        Title="Dodaj Danie" Height="320" Width="500" Background="#2F4F4F">
     <Grid Margin="20">
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Nazwa:" Foreground="White" FontSize="16"/>
